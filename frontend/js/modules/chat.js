@@ -16,7 +16,10 @@ const ChatModule = {
         isLoading: false,
         error: null,
         isInitialized: false,
-        messageCount: 0
+        messageCount: 0,
+        unreadCount: 0,
+        typingUsers: [],
+        lastMessageTime: null
     },
     
     // Default room that always exists
@@ -53,7 +56,6 @@ const ChatModule = {
             } else if (user.display_name) {
                 this.state.username = user.display_name;
             } else {
-                // Fallback to stored username or default
                 const storedUsername = localStorage.getItem('dg_username');
                 if (storedUsername) {
                     this.state.username = storedUsername;
@@ -66,19 +68,62 @@ const ChatModule = {
             this.renderRoomList();
             this.bindEvents();
             
+            // Initialize WebSocket
+            this._initWebSocket();
+            
             // Auto-select local room if no active room
             if (!this.state.activeRoom && this.state.rooms.length > 0) {
                 this.selectRoom('local');
             }
             
             this.state.isInitialized = true;
-            
-            // Notify UI that chat is ready
             this._triggerEvent('chat-ready', { username: this.state.username });
             
         } catch (error) {
             console.error('Chat initialization failed:', error);
             this._showError('Failed to initialize chat. Please refresh the page.');
+        }
+    },
+    
+    /**
+     * Initialize WebSocket connection
+     */
+    _initWebSocket() {
+        if (window.socketManager) {
+            window.socketManager.connect();
+            
+            // Handle incoming room messages
+            window.socketManager.on('onRoomMessage', (data) => {
+                console.log('WebSocket message received:', data);
+                if (this.state.activeRoom && this.state.activeRoom.id === data.room_id) {
+                    this.state.activeRoom.messages.push({
+                        sender: data.username || 'Anonymous',
+                        content: data.content,
+                        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                    });
+                    this.saveRooms();
+                    this.renderMessages();
+                    this.renderRoomList();
+                }
+            });
+            
+            // Handle user joined
+            window.socketManager.on('onUserJoined', (data) => {
+                console.log('User joined:', data);
+                if (data.username && data.username !== this.state.username) {
+                    this._showNotification(`${data.username} joined the chat!`, 'info');
+                }
+            });
+            
+            // Handle user left
+            window.socketManager.on('onUserLeft', (data) => {
+                console.log('User left:', data);
+                if (data.username && data.username !== this.state.username) {
+                    this._showNotification(`${data.username} left the chat.`, 'info');
+                }
+            });
+        } else {
+            console.warn('WebSocket manager not found. Chat will use localStorage only.');
         }
     },
     
@@ -92,17 +137,14 @@ const ChatModule = {
             if (stored) {
                 const parsed = JSON.parse(stored);
                 
-                // Validate data structure
                 if (!Array.isArray(parsed)) {
                     throw new Error('Invalid room data structure');
                 }
                 
-                // Ensure each room has required fields
                 const validRooms = parsed.filter(room => 
                     room.id && room.name && Array.isArray(room.messages)
                 );
                 
-                // Ensure Local Chat always exists
                 const hasLocal = validRooms.some(room => room.id === 'local');
                 if (!hasLocal) {
                     validRooms.unshift({ 
@@ -112,9 +154,8 @@ const ChatModule = {
                 }
                 
                 this.state.rooms = validRooms;
-                this.saveRooms(); // Save validated data
+                this.saveRooms();
             } else {
-                // First visit – create default room
                 this.state.rooms = [{ 
                     ...this.defaultRoom, 
                     messages: [...this.defaultRoom.messages] 
@@ -123,7 +164,6 @@ const ChatModule = {
             }
         } catch (error) {
             console.error('Failed to load chat rooms:', error);
-            // Reset to default on error
             this.state.rooms = [{ 
                 ...this.defaultRoom, 
                 messages: [...this.defaultRoom.messages] 
@@ -138,12 +178,10 @@ const ChatModule = {
      */
     saveRooms() {
         try {
-            // Validate before saving
             if (!Array.isArray(this.state.rooms)) {
                 throw new Error('Invalid rooms data');
             }
             
-            // Ensure Local Chat exists before saving
             const hasLocal = this.state.rooms.some(room => room.id === 'local');
             if (!hasLocal) {
                 this.state.rooms.unshift({ 
@@ -154,7 +192,6 @@ const ChatModule = {
             
             localStorage.setItem('dg_chat_rooms', JSON.stringify(this.state.rooms));
             
-            // Update message count
             this.state.messageCount = this.state.rooms.reduce((total, room) => {
                 return total + (room.messages ? room.messages.filter(m => m.sender !== 'System').length : 0);
             }, 0);
@@ -234,7 +271,6 @@ const ChatModule = {
         try {
             this.state.activeRoom = room;
             
-            // Update header
             const titleEl = document.getElementById('active-room-title');
             const infoEl = document.getElementById('active-room-info');
             
@@ -244,7 +280,6 @@ const ChatModule = {
                 infoEl.textContent = count + ' message' + (count !== 1 ? 's' : '');
             }
             
-            // Enable input
             const input = document.getElementById('chat-message-input');
             const sendBtn = document.getElementById('chat-send-btn');
             
@@ -258,11 +293,8 @@ const ChatModule = {
                 sendBtn.style.opacity = '1';
             }
             
-            // Update UI
             this.renderRoomList();
             this.renderMessages();
-            
-            // Trigger room selected event
             this._triggerEvent('room-selected', { roomId: room.id, roomName: room.name });
             
         } catch (error) {
@@ -277,7 +309,7 @@ const ChatModule = {
     createRoom() {
         try {
             const name = prompt('Enter room name:');
-            if (name === null) return; // User cancelled
+            if (name === null) return;
             if (!name || !name.trim()) {
                 this._showError('Room name cannot be empty.');
                 return;
@@ -285,7 +317,6 @@ const ChatModule = {
             
             const trimmedName = name.trim();
             
-            // Validate name length
             if (trimmedName.length < 2) {
                 this._showError('Room name must be at least 2 characters.');
                 return;
@@ -296,7 +327,6 @@ const ChatModule = {
                 return;
             }
             
-            // Check for duplicate (case-insensitive)
             const exists = this.state.rooms.some(room => 
                 room.name.toLowerCase() === trimmedName.toLowerCase()
             );
@@ -306,7 +336,6 @@ const ChatModule = {
                 return;
             }
             
-            // Create new room
             const newRoom = {
                 id: 'room_' + Date.now(),
                 name: trimmedName,
@@ -323,7 +352,6 @@ const ChatModule = {
             this.saveRooms();
             this.renderRoomList();
             this.selectRoom(newRoom.id);
-            
             this._showNotification('Room "' + trimmedName + '" created!', 'success');
             
         } catch (error) {
@@ -342,7 +370,6 @@ const ChatModule = {
             return;
         }
         
-        // Prevent deleting Local Chat
         if (roomId === 'local') {
             this._showError('Cannot delete the Local Chat room.');
             return;
@@ -368,7 +395,6 @@ const ChatModule = {
             
             this.saveRooms();
             this.renderRoomList();
-            
             this._showNotification('Room deleted.', 'info');
             
         } catch (error) {
@@ -392,7 +418,6 @@ const ChatModule = {
         }
         
         try {
-            // No active room
             if (!this.state.activeRoom) {
                 container.innerHTML = this._getEmptyState('Select a Room', 'Choose a room from the left to start chatting.', '💬');
                 return;
@@ -400,15 +425,12 @@ const ChatModule = {
             
             const messages = this.state.activeRoom.messages || [];
             
-            // No messages
             if (messages.length === 0) {
                 container.innerHTML = this._getEmptyState('No Messages Yet', 'Start the conversation!', '💬');
                 return;
             }
             
-            // Render messages
             container.innerHTML = messages.map((msg, index) => {
-                // System message
                 if (msg.sender === 'System') {
                     return `<div class="system-message">${this._escapeHtml(msg.content)}</div>`;
                 }
@@ -436,7 +458,6 @@ const ChatModule = {
                 `;
             }).join('');
             
-            // Scroll to bottom
             setTimeout(() => {
                 container.scrollTop = container.scrollHeight;
             }, 100);
@@ -448,7 +469,7 @@ const ChatModule = {
     },
     
     /**
-     * Send a message with validation
+     * Send a message with validation and WebSocket support
      */
     sendMessage() {
         if (!this.state.activeRoom) {
@@ -464,11 +485,9 @@ const ChatModule = {
         
         const content = input.value.trim();
         if (!content) {
-            // Don't show error for empty messages, just ignore
             return;
         }
         
-        // Validate message length
         if (content.length > 1000) {
             this._showError('Message is too long (max 1000 characters).');
             return;
@@ -482,16 +501,25 @@ const ChatModule = {
                 time: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
             };
             
+            // Send via WebSocket if connected
+            if (window.socketManager && window.socketManager.isConnected()) {
+                window.socketManager.sendRoomMessage(
+                    this.state.activeRoom.id,
+                    this.state.username,
+                    content
+                );
+                console.log('Message sent via WebSocket');
+            }
+            
+            // Save to localStorage (for offline/backup)
             this.state.activeRoom.messages.push(message);
             this.saveRooms();
             this.renderMessages();
             this.renderRoomList();
             
-            // Clear input
             input.value = '';
             input.focus();
             
-            // Trigger message sent event
             this._triggerEvent('message-sent', { roomId: this.state.activeRoom.id, message: message });
             
         } catch (error) {
@@ -525,7 +553,6 @@ const ChatModule = {
             this.saveRooms();
             this.renderMessages();
             this.renderRoomList();
-            
             this._showNotification('Room cleared.', 'info');
             
         } catch (error) {
@@ -586,7 +613,6 @@ const ChatModule = {
             overlay.appendChild(img);
             document.body.appendChild(overlay);
             
-            // Close on escape key
             const escHandler = (e) => {
                 if (e.key === 'Escape') {
                     overlay.remove();
@@ -608,13 +634,11 @@ const ChatModule = {
      * Bind all event listeners
      */
     bindEvents() {
-        // Send button
         const sendBtn = document.getElementById('chat-send-btn');
         if (sendBtn) {
             sendBtn.addEventListener('click', () => this.sendMessage());
         }
         
-        // Enter key to send
         const input = document.getElementById('chat-message-input');
         if (input) {
             input.addEventListener('keydown', (e) => {
@@ -625,25 +649,20 @@ const ChatModule = {
             });
         }
         
-        // Create room button
         const createBtn = document.getElementById('create-room-btn');
         if (createBtn) {
             createBtn.addEventListener('click', () => this.createRoom());
         }
         
-        // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
-            // Ctrl+N = New Room
             if (e.ctrlKey && e.key === 'n') {
                 e.preventDefault();
                 this.createRoom();
             }
-            // Ctrl+L = Select Local Chat
             if (e.ctrlKey && e.key === 'l') {
                 e.preventDefault();
                 this.selectRoom('local');
             }
-            // Escape = Clear selection
             if (e.key === 'Escape' && this.state.activeRoom) {
                 this.state.activeRoom = null;
                 this.clearChatView();
@@ -651,10 +670,8 @@ const ChatModule = {
             }
         });
         
-        // Handle visibility change (tab switch)
         document.addEventListener('visibilitychange', () => {
             if (!document.hidden) {
-                // Refresh UI when tab becomes visible
                 this.renderRoomList();
                 if (this.state.activeRoom) {
                     this.renderMessages();
