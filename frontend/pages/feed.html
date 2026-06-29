@@ -387,7 +387,9 @@
         document.getElementById('post-input').addEventListener('keydown', function(e) {
             if (e.ctrlKey && e.key === 'Enter') { e.preventDefault(); createPost(); }
         });
-        
+        const avatarUrl = user.avatar 
+    ? `https://deepgravity-app.onrender.com/uploads/profiles/${user.avatar}` 
+    : '/assets/images/default.png';
         // Initial render
         renderFeed();
     </script>
