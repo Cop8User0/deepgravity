@@ -240,8 +240,8 @@
                 userArea.className = 'user-area';
                 
                 var avatar = document.createElement('img');
-                avatar.src = user.avatar || '/uploads/profiles/default.png';
-                avatar.onerror = function() { this.src = '/uploads/profiles/default.png'; };
+                avatar.src = user.avatar || '/assets/images/default.png';
+                avatar.onerror = function() { this.src = '/assets/images/default.png'; };
                 userArea.appendChild(avatar);
                 
                 var usernameSpan = document.createElement('span');
