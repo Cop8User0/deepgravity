@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: deepgravity
+    runtime: python
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: python backend/run.py
+    envVars:
+      - key: DATABASE_URL
+        value: sqlite:///database/deepgravity.db
+      - key: SECRET_KEY
+        value: my_secret_key
+      - key: FLASK_ENV
+        value: production

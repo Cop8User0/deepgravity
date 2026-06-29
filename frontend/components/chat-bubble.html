@@ -1,0 +1,35 @@
+<!--
+  DEEPGRAVITY – Chat Bubble Component
+  Template for a single chat message.
+  Loaded dynamically by JavaScript when rendering chat messages.
+  
+  Variables:
+  {{sent_class}}   – "sent" (if sent by current user) or "received"
+  {{avatar}}        – URL of sender's avatar
+  {{sender_name}}   – Display name of sender
+  {{content}}       – Message text content
+  {{time}}          – Timestamp of the message
+-->
+  
+<div class="chat-bubble sent">
+    <img class="avatar avatar-sm" src="/uploads/profiles/default.png" alt="Avatar">
+    <div style="flex: 1; min-width: 0;">
+        <div class="chat-bubble-sender">Username</div>
+        <div class="bubble-content">
+            <div>Message content goes here.</div>
+            <div class="chat-bubble-time">12:34 PM</div>
+        </div>
+    </div>
+</div>
+
+<!-- Example of received message -->
+<div class="chat-bubble received">
+    <img class="avatar avatar-sm" src="/uploads/profiles/user2.png" alt="Avatar">
+    <div style="flex: 1; min-width: 0;">
+        <div class="chat-bubble-sender">Another User</div>
+        <div class="bubble-content">
+            <div>This is a received message.</div>
+            <div class="chat-bubble-time">12:35 PM</div>
+        </div>
+    </div>
+</div>

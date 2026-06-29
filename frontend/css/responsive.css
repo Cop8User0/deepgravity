@@ -1,0 +1,221 @@
+/* ============================================================
+   DEEPGRAVITY – responsive.css
+   Mobile & Tablet Responsive Styles
+   ============================================================ */
+
+/* ----- Large Tablets (992px and below) ----- */
+@media (max-width: 992px) {
+    .app-layout {
+        grid-template-columns: 80px 1fr;
+    }
+    
+    /* Hide sidebar text, show only icons */
+    .sidebar-menu-item span {
+        display: none;
+    }
+    
+    .sidebar-menu-item a {
+        justify-content: center;
+        padding: 14px;
+    }
+    
+    /* Adjust grid layouts */
+    .admin-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+    
+    .friends-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+}
+
+/* ----- Tablets (768px and below) ----- */
+@media (max-width: 768px) {
+    .app-layout {
+        grid-template-columns: 1fr;
+        height: calc(100vh - 60px);
+        margin-top: 60px;
+    }
+    
+    #navbar {
+        height: 60px;
+        padding: 0 1rem;
+    }
+    
+    /* Hide sidebar by default on mobile */
+    #sidebar {
+        display: none;
+        position: fixed;
+        top: 60px;
+        left: 0;
+        bottom: 0;
+        width: 260px;
+        z-index: 200;
+        background: #12121a;
+        border-right: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    
+    #sidebar.mobile-open {
+        display: block;
+    }
+    
+    /* Stack chat and messages layouts */
+    .chat-layout,
+    .messages-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Hide sidebar panels, show when active */
+    .chat-sidebar,
+    .conversations-sidebar {
+        display: none;
+    }
+    
+    .chat-sidebar.active,
+    .conversations-sidebar.active {
+        display: flex;
+        position: fixed;
+        top: 60px;
+        left: 0;
+        bottom: 0;
+        width: 280px;
+        z-index: 150;
+    }
+    
+    /* Adjust main content padding */
+    #app-container {
+        padding: 1rem;
+    }
+    
+    /* Stack settings rows */
+    .settings-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    
+    /* Full-width stat cards */
+    .admin-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Stack profile layout */
+    .profile-container {
+        max-width: 100%;
+    }
+    
+    /* Adjust post cards */
+    .post-card {
+        padding: 1rem;
+    }
+    
+    /* Make tables scrollable */
+    .admin-table-wrapper {
+        margin: 0 -1rem;
+        padding: 0 1rem;
+    }
+    
+    /* Adjust auth cards */
+    .auth-card {
+        padding: 1.5rem;
+    }
+}
+
+/* ----- Mobile Phones (480px and below) ----- */
+@media (max-width: 480px) {
+    /* Single column grids */
+    .admin-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .friends-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Smaller headings */
+    h1 { font-size: 1.5rem; }
+    h2 { font-size: 1.3rem; }
+    h3 { font-size: 1.1rem; }
+    
+    /* Tighter spacing */
+    .card {
+        padding: 1rem;
+    }
+    
+    /* Full-width buttons */
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    /* Adjust navbar */
+    .navbar-logo {
+        font-size: 1rem;
+    }
+    
+    /* Stack post actions */
+    .post-actions {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    /* Hide welcome screen subtitle */
+    .welcome-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .welcome-title {
+        font-size: 2rem;
+    }
+    
+    /* Adjust chat bubbles */
+    .chat-bubble {
+        max-width: 90%;
+    }
+    
+    /* Stack modal buttons */
+    .modal-footer {
+        flex-direction: column;
+    }
+    
+    .modal-footer .modal-btn {
+        width: 100%;
+    }
+}
+
+/* ----- Mobile Sidebar Overlay ----- */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 199;
+}
+
+.sidebar-overlay.active {
+    display: block;
+}
+
+/* ----- Print Styles ----- */
+@media print {
+    body {
+        background: white;
+        color: black;
+    }
+    
+    #navbar,
+    #sidebar,
+    #toast-container,
+    #modal-container {
+        display: none !important;
+    }
+    
+    .app-layout {
+        display: block;
+        margin-top: 0;
+    }
+    
+    #app-container {
+        overflow: visible;
+    }
+}

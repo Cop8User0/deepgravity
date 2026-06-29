@@ -1,0 +1,134 @@
+<!--
+  DEEPGRAVITY – About Page Fragment
+  This file is loaded dynamically into #app-container by the SPA router.
+  It does NOT contain <html>, <head>, or <body> tags — just the content.
+-->
+<div class="animate-fade-in" style="max-width: 680px; margin: 0 auto; line-height: 1.6; padding: 2rem 0;">
+    <!-- ============================================================
+   BACK BUTTON SNIPPET
+   Copy THIS ONLY and paste it at the very top of each page,
+   right after <body> opens.
+   ============================================================ -->
+   <header id="shared-navbar" style="height:60px;background:#12121a;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;position:sticky;top:0;z-index:100;"></header>
+<a href="../index.html" style="position:fixed;top:15px;left:20px;z-index:100;padding:0.5rem 1rem;background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.3);border-radius:8px;color:#8b5cf6;text-decoration:none;font-weight:600;font-size:0.9rem;">← Back to Home</a>
+    
+    <!-- Page Title -->
+    <div style="text-align: center; margin-bottom: 40px;">
+        <h1 style="font-size: 2.5rem; font-weight: 800; background: linear-gradient(135deg, #8b5cf6, #06b6d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px;">DEEPGRAVITY</h1>
+        <p style="color: #94a3b8; font-size: 1.1rem;">Anonymous & Secure Social Platform</p>
+    </div>
+
+    <!-- About Section -->
+    <div class="card" style="margin-bottom: 24px;">
+        <h3 style="font-weight: 700; margin-bottom: 12px; color: #06b6d4;">About the Platform</h3>
+        <p style="color: #94a3b8; margin-bottom: 16px;">
+            DEEPGRAVITY is built for those who want to share their thoughts, ideas, or photos completely anonymously. 
+            The platform does not store or display the identity of the post author in public spaces.
+        </p>
+        <p style="color: #94a3b8; margin-bottom: 16px;">
+            Our mission is to create a safe and free environment for conversations and sharing ideas. 
+            All private messages are end-to-end encrypted, ensuring only you and the recipient can read them.
+        </p>
+        <p style="color: #94a3b8;">
+            We believe in privacy as a fundamental right. No tracking, no logs, no data collection beyond what is 
+            necessary for the platform to function.
+        </p>
+    </div>
+<style>
+html, body {
+    background: #0a0a0f !important;
+    color: #e2e8f0 !important;
+}
+</style>
+    <!-- Features Section -->
+    <div class="card" style="margin-bottom: 24px;">
+        <h3 style="font-weight: 700; margin-bottom: 16px; color: #8b5cf6;">Key Features</h3>
+        <ul style="list-style: none; color: #94a3b8; display: flex; flex-direction: column; gap: 12px; padding: 0;">
+            <li style="display: flex; gap: 10px; align-items: flex-start;">
+                <span style="font-size: 1.5rem;">📝</span>
+                <div>
+                    <strong style="color: #e2e8f0;">Anonymous Posts:</strong>
+                    <span style="display: block; margin-top: 2px;">Share texts and photos without revealing your identity. Every post appears with an anonymous badge.</span>
+                </div>
+            </li>
+            <li style="display: flex; gap: 10px; align-items: flex-start;">
+                <span style="font-size: 1.5rem;">💬</span>
+                <div>
+                    <strong style="color: #e2e8f0;">Group Chats:</strong>
+                    <span style="display: block; margin-top: 2px;">Create rooms and chat with people in real-time using WebSocket technology.</span>
+                </div>
+            </li>
+            <li style="display: flex; gap: 10px; align-items: flex-start;">
+                <span style="font-size: 1.5rem;">🔒</span>
+                <div>
+                    <strong style="color: #e2e8f0;">Private Messages:</strong>
+                    <span style="display: block; margin-top: 2px;">Secure, encrypted conversations with friends. AES-256 encryption protects your messages.</span>
+                </div>
+            </li>
+            <li style="display: flex; gap: 10px; align-items: flex-start;">
+                <span style="font-size: 1.5rem;">👥</span>
+                <div>
+                    <strong style="color: #e2e8f0;">Friends System:</strong>
+                    <span style="display: block; margin-top: 2px;">Add friends, track their online status, and build your trusted network.</span>
+                </div>
+            </li>
+            <li style="display: flex; gap: 10px; align-items: flex-start;">
+                <span style="font-size: 1.5rem;">🎨</span>
+                <div>
+                    <strong style="color: #e2e8f0;">Dark Glassmorphism Design:</strong>
+                    <span style="display: block; margin-top: 2px;">A stunning dark theme with frosted glass effects, purple-cyan gradients, and smooth animations.</span>
+                </div>
+            </li>
+            <li style="display: flex; gap: 10px; align-items: flex-start;">
+                <span style="font-size: 1.5rem;">⚡</span>
+                <div>
+                    <strong style="color: #e2e8f0;">Real-Time Updates:</strong>
+                    <span style="display: block; margin-top: 2px;">Chat messages, friend requests, and notifications arrive instantly via WebSocket.</span>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Tech Stack Section -->
+    <div class="card" style="margin-bottom: 24px;">
+        <h3 style="font-weight: 700; margin-bottom: 12px; color: #10b981;">Technology Stack</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-top: 12px;">
+            <div style="background: rgba(139, 92, 246, 0.1); padding: 12px; border-radius: 8px; text-align: center;">
+                <strong style="color: #8b5cf6; display: block;">Frontend</strong>
+                <span style="color: #94a3b8; font-size: 0.9rem;">HTML5, CSS3, Vanilla JS (ES6+)</span>
+            </div>
+            <div style="background: rgba(6, 182, 212, 0.1); padding: 12px; border-radius: 8px; text-align: center;">
+                <strong style="color: #06b6d4; display: block;">Backend</strong>
+                <span style="color: #94a3b8; font-size: 0.9rem;">Python (Flask + Flask-SocketIO)</span>
+            </div>
+            <div style="background: rgba(16, 185, 129, 0.1); padding: 12px; border-radius: 8px; text-align: center;">
+                <strong style="color: #10b981; display: block;">Database</strong>
+                <span style="color: #94a3b8; font-size: 0.9rem;">SQLite / PostgreSQL</span>
+            </div>
+            <div style="background: rgba(245, 158, 11, 0.1); padding: 12px; border-radius: 8px; text-align: center;">
+                <strong style="color: #f59e0b; display: block;">Real-Time</strong>
+                <span style="color: #94a3b8; font-size: 0.9rem;">WebSocket (Socket.IO)</span>
+            </div>
+            <div style="background: rgba(239, 68, 68, 0.1); padding: 12px; border-radius: 8px; text-align: center;">
+                <strong style="color: #ef4444; display: block;">Auth</strong>
+                <span style="color: #94a3b8; font-size: 0.9rem;">JWT + bcrypt</span>
+            </div>
+            <div style="background: rgba(139, 92, 246, 0.1); padding: 12px; border-radius: 8px; text-align: center;">
+                <strong style="color: #8b5cf6; display: block;">Encryption</strong>
+                <span style="color: #94a3b8; font-size: 0.9rem;">AES-256 (E2E)</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="card" style="text-align: center;">
+        <h3 style="font-weight: 700; margin-bottom: 12px; color: #f59e0b;">Contact</h3>
+        <p style="color: #94a3b8; margin-bottom: 12px;">
+            For support or inquiries, reach out to the operator:
+        </p>
+        <a href="mailto:deepcore8@gmail.com" style="color: #06b6d4; text-decoration: none; font-weight: 600; font-size: 1.1rem;">
+            deepcore8@gmail.com
+        </a>
+    </div>
+
+</div>

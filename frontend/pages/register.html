@@ -1,0 +1,107 @@
+<!-- pages/register.html – Register Page with CSS Link -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEEPGRAVITY – Register</title>
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/auth.css">
+    <link rel="stylesheet" href="../css/components.css">
+</head>
+<!-- ============================================================
+   BACK BUTTON SNIPPET
+   Copy THIS ONLY and paste it at the very top of each page,
+   right after <body> opens.
+   ============================================================ -->
+   <header id="shared-navbar" style="height:60px;background:#12121a;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;position:sticky;top:0;z-index:100;"></header>
+<a href="../index.html" style="position:fixed;top:15px;left:20px;z-index:100;padding:0.5rem 1rem;background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.3);border-radius:8px;color:#8b5cf6;text-decoration:none;font-weight:600;font-size:0.9rem;">← Back to Home</a>
+<body>
+    <div class="auth-wrapper">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1 class="auth-title">Register</h1>
+                <p class="auth-subtitle">Create a new account</p>
+            </div>
+
+            <form id="register-form" onsubmit="return false;">
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input type="text" id="register-username" placeholder="Choose a username..." autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="register-password" placeholder="Create a strong password..." autocomplete="new-password">
+                </div>
+                <button type="submit" class="auth-submit-btn">Register</button>
+            </form>
+
+            <!-- Passkey Display (hidden until registration) -->
+            <div id="passkey-display" class="passkey-box" style="display:none;">
+                <p style="color:#10b981;font-weight:600;">✅ Registration Successful!</p>
+                <p style="font-size:0.85rem;color:#94a3b8;">Your Passkey (save this!):</p>
+                <div id="generated-passkey" class="passkey-code">000000</div>
+                <button id="copy-passkey-btn">📋 Copy Code</button>
+                <a href="login.html" class="auth-submit-btn" style="display:block;text-align:center;text-decoration:none;margin-top:10px;">Continue to Login</a>
+            </div>
+
+            <div id="register-error" class="auth-error" style="display:none;"></div>
+            <div class="auth-footer" id="register-footer">
+                Already have an account? <a href="login.html">Sign In</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            var form = document.getElementById('register-form');
+            var errorEl = document.getElementById('register-error');
+            var submitBtn = form.querySelector('button[type="submit"]');
+            var footer = document.getElementById('register-footer');
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                var username = document.getElementById('register-username').value.trim();
+                var password = document.getElementById('register-password').value.trim();
+
+                if (!username) { showError('Please enter a username.'); return; }
+                if (username.length < 3) { showError('Username must be at least 3 characters.'); return; }
+                if (!password) { showError('Please enter a password.'); return; }
+                if (password.length < 4) { showError('Password must be at least 4 characters.'); return; }
+
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Registering...';
+
+                setTimeout(function() {
+                    var passkey = Math.floor(100000 + Math.random() * 900000).toString();
+                    
+                    form.style.display = 'none';
+                    
+                    var passkeyBox = document.getElementById('passkey-display');
+                    var passkeyCode = document.getElementById('generated-passkey');
+                    passkeyBox.style.display = 'block';
+                    passkeyCode.textContent = passkey;
+                    
+                    if (footer) footer.style.display = 'none';
+                    
+                    document.getElementById('copy-passkey-btn').onclick = function() {
+                        navigator.clipboard.writeText(passkey).then(function() {
+                            alert('Passkey copied!');
+                        });
+                    };
+                    
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Register';
+                }, 500);
+            });
+
+            function showError(msg) {
+                errorEl.textContent = msg;
+                errorEl.style.display = 'block';
+                setTimeout(function() { errorEl.style.display = 'none'; }, 3000);
+            }
+        })();
+    </script>
+</body>
+</html>

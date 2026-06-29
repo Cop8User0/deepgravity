@@ -1,0 +1,38 @@
+<!--
+  DEEPGRAVITY – Image Viewer (Lightbox) Component
+  Full‑screen image overlay with close button and keyboard support.
+  Loaded dynamically into #modal-container by JavaScript when an image is clicked.
+-->
+  
+<div id="image-viewer-lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+    
+    <!-- Close Button -->
+    <button id="lightbox-close" class="lightbox-close" aria-label="Close image viewer" title="Close (Esc)">
+        &times;
+    </button>
+    
+    <!-- Previous Image (if gallery) -->
+    <button id="lightbox-prev" class="lightbox-nav lightbox-prev" aria-label="Previous image" title="Previous (←)">
+        ‹
+    </button>
+    
+    <!-- Main Image -->
+    <img id="lightbox-img" src="" alt="Full size preview">
+    
+    <!-- Image Caption (optional) -->
+    <p id="lightbox-caption" class="lightbox-caption"></p>
+    
+    <!-- Next Image (if gallery) -->
+    <button id="lightbox-next" class="lightbox-nav lightbox-next" aria-label="Next image" title="Next (→)">
+        ›
+    </button>
+    
+    <!-- Image Counter (e.g., "3 / 7") -->
+    <span id="lightbox-counter" class="lightbox-counter">1 / 1</span>
+    
+    <!-- Download Button -->
+    <a id="lightbox-download" class="lightbox-download" download title="Download image">
+        ⬇
+    </a>
+    
+</div>

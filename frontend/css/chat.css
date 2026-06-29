@@ -1,0 +1,674 @@
+/* ============================================================
+   DEEPGRAVITY – css/chat.css (EXTENDED EDITION)
+   Complete Chat Styles – Sidebar, Rooms, Messages, Input, Empty State, Responsive
+   ============================================================ */
+
+/* ============================================================
+   1. CHAT LAYOUT GRID
+   ============================================================ */
+.chat-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    height: calc(100vh - 60px);
+    background: #0a0a0f;
+    gap: 0;
+}
+
+/* ============================================================
+   2. LEFT SIDEBAR – ROOMS LIST
+   ============================================================ */
+.chat-sidebar {
+    background: #12121a;
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Sidebar Header */
+.chat-sidebar-header {
+    padding: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(18, 18, 26, 0.5);
+    backdrop-filter: blur(10px);
+}
+
+.chat-sidebar-header h3 {
+    color: #e2e8f0;
+    font-weight: 700;
+    margin: 0;
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+}
+
+/* Create Room Button */
+#create-room-btn,
+.create-room-btn {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.3rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+    line-height: 1;
+}
+
+#create-room-btn:hover,
+.create-room-btn:hover {
+    transform: scale(1.1) rotate(90deg);
+    box-shadow: 0 4px 20px rgba(139, 92, 246, 0.5);
+}
+
+#create-room-btn:active,
+.create-room-btn:active {
+    transform: scale(0.95);
+}
+
+/* Room List Container */
+.rooms-list,
+#rooms-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.06) transparent;
+}
+
+.rooms-list::-webkit-scrollbar,
+#rooms-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.rooms-list::-webkit-scrollbar-track,
+#rooms-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.rooms-list::-webkit-scrollbar-thumb,
+#rooms-list::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 2px;
+}
+
+/* Individual Room Item */
+.room-item {
+    padding: 12px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 4px;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.room-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(180deg, #8b5cf6, #06b6d4);
+    border-radius: 3px 0 0 3px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.room-item:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.06);
+}
+
+.room-item.active {
+    background: rgba(139, 92, 246, 0.12);
+    border-color: rgba(139, 92, 246, 0.25);
+}
+
+.room-item.active::before {
+    opacity: 1;
+}
+
+.room-item .room-name {
+    font-weight: 600;
+    color: #e2e8f0;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.room-item .room-meta {
+    font-size: 0.75rem;
+    color: #64748b;
+    margin-top: 3px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.room-item .room-unread {
+    background: #06b6d4;
+    color: #000;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 10px;
+    min-width: 20px;
+    text-align: center;
+}
+
+/* ============================================================
+   3. RIGHT SIDE – CHAT AREA
+   ============================================================ */
+.chat-main {
+    display: flex;
+    flex-direction: column;
+    background: #0a0a0f;
+    position: relative;
+}
+
+/* Chat Header */
+.chat-main-header {
+    padding: 16px 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(15, 15, 24, 0.4);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 56px;
+}
+
+.chat-main-header .header-left {
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-main-header h3 {
+    color: #e2e8f0;
+    font-weight: 700;
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.chat-main-header .header-info {
+    font-size: 0.75rem;
+    color: #64748b;
+    margin-top: 2px;
+}
+
+/* Messages Container */
+.chat-messages-container,
+#chat-messages-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.06) transparent;
+}
+
+.chat-messages-container::-webkit-scrollbar,
+#chat-messages-container::-webkit-scrollbar {
+    width: 5px;
+}
+
+.chat-messages-container::-webkit-scrollbar-track,
+#chat-messages-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.chat-messages-container::-webkit-scrollbar-thumb,
+#chat-messages-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 3px;
+}
+
+/* ============================================================
+   4. MESSAGE BUBBLE
+   ============================================================ */
+.message-bubble {
+    display: flex;
+    gap: 10px;
+    max-width: 70%;
+    align-self: flex-start;
+    animation: messageSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.message-bubble.sent {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+@keyframes messageSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Message Avatar */
+.message-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    color: white;
+    user-select: none;
+}
+
+.message-bubble.received .message-avatar {
+    background: #1a1a2e;
+    color: #94a3b8;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.message-bubble.sent .message-avatar {
+    background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+    box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+}
+
+/* Message Body Wrapper */
+.message-body {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Message Sender Name */
+.message-sender {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #06b6d4;
+    margin-bottom: 5px;
+    letter-spacing: 0.02em;
+}
+
+.message-bubble.sent .message-sender {
+    color: rgba(255, 255, 255, 0.9);
+    text-align: right;
+}
+
+/* Message Content Bubble */
+.message-content {
+    background: #1a1a2e;
+    padding: 12px 16px;
+    border-radius: 0 14px 14px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #e2e8f0;
+    word-break: break-word;
+    position: relative;
+}
+
+.message-bubble.sent .message-content {
+    background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+    border: none;
+    border-radius: 14px 0 14px 14px;
+    color: white;
+    box-shadow: 0 2px 10px rgba(139, 92, 246, 0.2);
+}
+
+/* Message Time */
+.message-time {
+    font-size: 0.68rem;
+    color: rgba(255, 255, 255, 0.35);
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.message-bubble.sent .message-time {
+    color: rgba(255, 255, 255, 0.65);
+    justify-content: flex-end;
+}
+
+.message-time .encryption-icon {
+    font-size: 0.6rem;
+}
+
+/* ============================================================
+   5. SYSTEM MESSAGE
+   ============================================================ */
+.system-message {
+    text-align: center;
+    color: #64748b;
+    font-size: 0.78rem;
+    font-style: italic;
+    padding: 10px 0;
+    position: relative;
+}
+
+.system-message::before,
+.system-message::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 40px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.system-message::before {
+    left: 20%;
+}
+
+.system-message::after {
+    right: 20%;
+}
+
+/* ============================================================
+   6. CHAT INPUT AREA
+   ============================================================ */
+.chat-input-area {
+    padding: 16px 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(18, 18, 26, 0.85);
+    backdrop-filter: blur(10px);
+}
+
+.chat-input-wrapper {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.chat-input-wrapper input,
+.chat-input-wrapper textarea {
+    flex: 1;
+    padding: 0.8rem 1.1rem;
+    background: #0a0a0f;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    color: #e2e8f0;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    resize: none;
+}
+
+.chat-input-wrapper input:focus,
+.chat-input-wrapper textarea:focus {
+    border-color: #8b5cf6;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+.chat-input-wrapper input:disabled,
+.chat-input-wrapper textarea:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.chat-input-wrapper input::placeholder,
+.chat-input-wrapper textarea::placeholder {
+    color: #64748b;
+}
+
+/* Send Button */
+.chat-send-btn,
+#chat-send-btn {
+    padding: 10px 22px;
+    background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+    color: white;
+    border: none;
+    border-radius: 24px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.chat-send-btn:hover,
+#chat-send-btn:hover {
+    box-shadow: 0 6px 25px rgba(139, 92, 246, 0.5);
+    transform: translateY(-2px);
+}
+
+.chat-send-btn:active,
+#chat-send-btn:active {
+    transform: translateY(0);
+}
+
+.chat-send-btn:disabled,
+#chat-send-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+/* ============================================================
+   7. EMPTY STATE
+   ============================================================ */
+.chat-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    color: #64748b;
+    padding: 2rem;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.chat-empty .empty-icon {
+    font-size: 5rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.3;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+}
+
+.chat-empty h3 {
+    color: #94a3b8;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.chat-empty p {
+    font-size: 0.9rem;
+    max-width: 300px;
+    line-height: 1.5;
+}
+
+/* ============================================================
+   8. TYPING INDICATOR
+   ============================================================ */
+.typing-indicator {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 14px;
+    color: #64748b;
+    font-size: 0.8rem;
+    font-style: italic;
+    align-self: flex-start;
+}
+
+.typing-dots {
+    display: flex;
+    gap: 3px;
+}
+
+.typing-dot {
+    width: 6px;
+    height: 6px;
+    background: #64748b;
+    border-radius: 50%;
+    animation: typingBounce 1.4s infinite ease-in-out;
+}
+
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typingBounce {
+    0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+    40% { transform: scale(1); opacity: 1; }
+}
+
+/* ============================================================
+   9. CHAT IMAGE ATTACHMENT
+   ============================================================ */
+.chat-image {
+    max-width: 220px;
+    max-height: 180px;
+    border-radius: 10px;
+    margin-top: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    object-fit: cover;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.chat-image:hover {
+    transform: scale(1.03);
+}
+
+/* ============================================================
+   10. RESPONSIVE BREAKPOINTS
+   ============================================================ */
+@media (max-width: 1024px) {
+    .message-bubble {
+        max-width: 75%;
+    }
+}
+
+@media (max-width: 768px) {
+    .chat-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .chat-sidebar {
+        display: none;
+        position: fixed;
+        top: 60px;
+        left: 0;
+        bottom: 0;
+        width: 280px;
+        z-index: 150;
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
+    }
+    
+    .chat-sidebar.open {
+        display: flex;
+    }
+    
+    .message-bubble {
+        max-width: 82%;
+    }
+    
+    .chat-messages-container,
+    #chat-messages-container {
+        padding: 16px;
+        gap: 12px;
+    }
+    
+    .chat-input-area {
+        padding: 12px 16px;
+    }
+    
+    .chat-main-header {
+        padding: 12px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .message-bubble {
+        max-width: 88%;
+    }
+    
+    .message-content {
+        padding: 10px 14px;
+        font-size: 0.9rem;
+    }
+    
+    .chat-input-wrapper input {
+        padding: 0.7rem 0.9rem;
+    }
+    
+    .chat-send-btn,
+    #chat-send-btn {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+    }
+    
+    .system-message::before,
+    .system-message::after {
+        width: 20px;
+    }
+    
+    .system-message::before {
+        left: 10%;
+    }
+    
+    .system-message::after {
+        right: 10%;
+    }
+}
+
+/* ============================================================
+   11. PRINT STYLES
+   ============================================================ */
+@media print {
+    .chat-layout {
+        display: block;
+        height: auto;
+    }
+    
+    .chat-sidebar,
+    .chat-input-area,
+    .chat-send-btn,
+    #create-room-btn {
+        display: none !important;
+    }
+    
+    .chat-main {
+        width: 100%;
+    }
+    
+    .message-bubble {
+        max-width: 100%;
+        break-inside: avoid;
+    }
+}

@@ -1,0 +1,45 @@
+<!--
+  DEEPGRAVITY – Post Card Component
+  Template for a single post in the feed.
+  Variables:
+  {{post_id}}       – Unique ID of the post
+  {{content}}        – Text content of the post
+  {{created_at}}     – Timestamp of the post
+  {{image_path}}     – URL of attached image (if any)
+  {{image_display}}  – "block" or "none"
+-->
+  
+<div class="post-card" data-post-id="12345">
+    
+    <!-- Post Header -->
+    <div class="post-header">
+        <!-- Author Info -->
+        <div class="post-author-info">
+            <!-- Anonymous Avatar -->
+            <div class="post-avatar">👤</div>
+            <div class="post-meta">
+                <span class="post-author">Anonymous User</span>
+                <span class="post-time">2026-06-29 14:30 UTC</span>
+            </div>
+        </div>
+        
+        <!-- Delete Button (only shown for own posts or admin) -->
+        <button class="post-delete-btn" title="Delete post">&times;</button>
+    </div>
+    
+    <!-- Post Content -->
+    <div class="post-content">
+        This is the content of the post. It can contain multiple lines of text.
+    </div>
+    
+    <!-- Post Image (if attached) -->
+    <img class="post-image" src="/uploads/posts/example.jpg" alt="Post image">
+    
+    <!-- Post Actions (Like, Comment, Share) -->
+    <div class="post-actions">
+        <button class="post-action-btn">⬆ 0</button>
+        <button class="post-action-btn">💬 0</button>
+        <button class="post-action-btn">🔄</button>
+    </div>
+    
+</div>

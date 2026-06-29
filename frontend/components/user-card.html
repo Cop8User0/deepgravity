@@ -1,0 +1,35 @@
+<!--
+  DEEPGRAVITY – User Card Component
+  Template for displaying a user in search results, friends list, etc.
+  Variables:
+  {{user_id}}       – Unique user ID
+  {{display_name}}  – User's display name
+  {{avatar}}         – URL of user's avatar
+  {{online_display}} – "inline" or "none" for the online dot
+  {{status_text}}    – Status text like "Online", "Last seen...", etc.
+-->
+  
+<div class="user-card" data-user-id="12345">
+    
+    <!-- Avatar with Online Indicator -->
+    <div class="user-card-avatar-wrapper">
+        <img class="user-card-avatar" src="/uploads/profiles/default.png" alt="User avatar">
+        <span class="user-card-online-dot"></span>
+    </div>
+    
+    <!-- User Info -->
+    <div class="user-card-info">
+        <h4 class="user-card-name">Username</h4>
+        <p class="user-card-status">Online</p>
+    </div>
+    
+    <!-- Action Buttons -->
+    <div class="user-card-actions">
+        <button class="user-card-btn user-card-btn-add">Add Friend</button>
+        <button class="user-card-btn user-card-btn-message">Message</button>
+        <button class="user-card-btn user-card-btn-remove">Remove</button>
+        <button class="user-card-btn user-card-btn-accept">Accept</button>
+        <button class="user-card-btn user-card-btn-reject">Reject</button>
+    </div>
+    
+</div>

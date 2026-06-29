@@ -1,0 +1,380 @@
+/* ============================================================
+   DEEPGRAVITY – css/profile.css (EXTENDED)
+   Profile Page – Avatar, Bio, Stats, Edit Form
+   ============================================================ */
+
+/* ============================================================
+   1. PROFILE CONTAINER
+   ============================================================ */
+.profile-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+/* ============================================================
+   2. PROFILE CARD
+   ============================================================ */
+.profile-card {
+    background: #12121a;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 20px;
+    padding: 40px 30px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+    animation: cardAppear 0.5s ease both;
+}
+
+@keyframes cardAppear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Gradient Top Border */
+.profile-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+}
+
+/* ============================================================
+   3. AVATAR
+   ============================================================ */
+.profile-avatar-wrapper {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(139, 92, 246, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.profile-avatar:hover {
+    border-color: rgba(139, 92, 246, 0.6);
+}
+
+/* Avatar Upload Overlay */
+.avatar-upload-overlay {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    width: 36px;
+    height: 36px;
+    background: #8b5cf6;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    z-index: 2;
+}
+
+.avatar-upload-overlay:hover {
+    background: #7c3aed;
+    transform: scale(1.1);
+}
+
+.avatar-upload-overlay:active {
+    transform: scale(0.95);
+}
+
+.avatar-upload-overlay input {
+    display: none;
+}
+
+/* ============================================================
+   4. PROFILE INFO
+   ============================================================ */
+.profile-display-name {
+    color: #e2e8f0;
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+    word-break: break-word;
+}
+
+.profile-bio {
+    color: #94a3b8;
+    max-width: 400px;
+    margin: 0 auto 20px;
+    line-height: 1.6;
+    font-size: 0.95rem;
+    word-break: break-word;
+}
+
+/* ============================================================
+   5. STATS
+   ============================================================ */
+.profile-stats {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    padding: 16px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    margin-bottom: 20px;
+}
+
+.profile-stat {
+    text-align: center;
+    transition: all 0.2s ease;
+    cursor: default;
+}
+
+.profile-stat:hover {
+    transform: translateY(-2px);
+}
+
+.profile-stat-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #e2e8f0;
+    line-height: 1;
+}
+
+.profile-stat-label {
+    font-size: 0.8rem;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 4px;
+}
+
+/* ============================================================
+   6. EDIT FORM
+   ============================================================ */
+.profile-edit-form {
+    text-align: left;
+    margin-top: 20px;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.profile-edit-form .form-group {
+    margin-bottom: 16px;
+}
+
+.profile-edit-form label {
+    display: block;
+    color: #94a3b8;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+.profile-edit-form input,
+.profile-edit-form textarea {
+    width: 100%;
+    padding: 0.75rem;
+    background: #0a0a0f;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    color: #e2e8f0;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-edit-form input:focus,
+.profile-edit-form textarea:focus {
+    border-color: #8b5cf6;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+.profile-edit-form textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.profile-edit-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* ============================================================
+   7. BUTTONS
+   ============================================================ */
+.profile-btn {
+    padding: 0.6rem 1.5rem;
+    border-radius: 24px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-family: inherit;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.profile-btn-primary {
+    background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+}
+
+.profile-btn-primary:hover {
+    box-shadow: 0 6px 25px rgba(139, 92, 246, 0.5);
+    transform: translateY(-2px);
+}
+
+.profile-btn-primary:active {
+    transform: translateY(0);
+}
+
+.profile-btn-secondary {
+    background: rgba(255, 255, 255, 0.05);
+    color: #94a3b8;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.profile-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #e2e8f0;
+}
+
+.profile-btn-edit {
+    padding: 0.6rem 2rem;
+    background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+    color: white;
+    border: none;
+    border-radius: 24px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-family: inherit;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+}
+
+.profile-btn-edit:hover {
+    box-shadow: 0 6px 25px rgba(139, 92, 246, 0.5);
+    transform: translateY(-2px);
+}
+
+.profile-btn-edit:active {
+    transform: translateY(0);
+}
+
+/* ============================================================
+   8. AVATAR SYNC INDICATOR
+   ============================================================ */
+.avatar-synced-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: #10b981;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-top: 8px;
+}
+
+/* ============================================================
+   9. RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+    .profile-container {
+        padding: 1rem 0.5rem;
+    }
+    
+    .profile-card {
+        padding: 30px 20px;
+        border-radius: 16px;
+    }
+    
+    .profile-avatar {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .profile-display-name {
+        font-size: 1.3rem;
+    }
+    
+    .profile-stats {
+        gap: 2rem;
+    }
+    
+    .profile-stat-value {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-avatar {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .avatar-upload-overlay {
+        width: 30px;
+        height: 30px;
+        font-size: 0.9rem;
+    }
+    
+    .profile-stats {
+        gap: 1.5rem;
+    }
+    
+    .profile-edit-actions {
+        flex-direction: column;
+    }
+    
+    .profile-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* ============================================================
+   10. PRINT STYLES
+   ============================================================ */
+@media print {
+    .avatar-upload-overlay,
+    .profile-edit-form,
+    .profile-btn,
+    #profile-actions {
+        display: none !important;
+    }
+    
+    .profile-card {
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+}

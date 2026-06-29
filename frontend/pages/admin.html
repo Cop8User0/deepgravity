@@ -1,0 +1,382 @@
+<!-- ============================================================
+   DEEPGRAVITY – pages/admin.html (COMPLETE)
+   Admin Dashboard – User Management, Post Moderation, Stats
+   ============================================================ -->
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin – DEEPGRAVITY</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    
+    <style>
+        html, body { background:#0a0a0f!important; color:#e2e8f0; margin:0; padding:0; }
+        body { padding-top:60px; font-family:'Inter',system-ui,sans-serif; }
+        
+        #shared-navbar {
+            height:60px; background:#12121a; border-bottom:1px solid rgba(255,255,255,0.06);
+            display:flex; align-items:center; justify-content:space-between; padding:0 2rem;
+            position:fixed; top:0; left:0; right:0; z-index:100;
+        }
+        .navbar-logo {
+            font-size:1.4rem; font-weight:800;
+            background:linear-gradient(135deg,#8b5cf6,#06b6d4);
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+            text-decoration:none;
+        }
+        .navbar-links { display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap; }
+        .navbar-links a {
+            padding:0.5rem 1rem; background:rgba(139,92,246,0.1);
+            border:1px solid rgba(139,92,246,0.3); border-radius:8px;
+            color:#8b5cf6; text-decoration:none; font-weight:600; font-size:0.9rem;
+            transition:all 0.2s ease; white-space:nowrap;
+        }
+        .navbar-links a:hover { background:rgba(139,92,246,0.2); border-color:#8b5cf6; }
+        .user-area { display:flex; align-items:center; gap:0.75rem; }
+        .user-area img { width:32px; height:32px; border-radius:50%; border:2px solid rgba(139,92,246,0.5); }
+        .user-area .username { font-weight:600; color:#e2e8f0; font-size:0.9rem; }
+        .logout-btn {
+            padding:0.4rem 0.8rem; background:rgba(239,68,68,0.1);
+            border:1px solid rgba(239,68,68,0.3); border-radius:6px;
+            color:#ef4444; cursor:pointer; font-weight:600; font-size:0.8rem;
+        }
+        .logout-btn:hover { background:rgba(239,68,68,0.2); }
+        
+        .admin-wrapper { max-width:1200px; margin:0 auto; padding:1rem; }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header id="shared-navbar">
+        <a href="../index.html" class="navbar-logo">DEEPGRAVITY</a>
+        <div class="navbar-links" id="navbar-links"></div>
+    </header>
+
+    <!-- ADMIN CONTENT -->
+    <div class="admin-wrapper">
+        
+        <!-- Page Header -->
+        <div style="margin-bottom:24px;">
+            <h2 style="font-weight:700;color:#e2e8f0;font-size:1.8rem;">🛡️ Administration</h2>
+            <p style="color:#64748b;font-size:0.9rem;">System monitoring and moderation</p>
+        </div>
+        
+        <!-- Stats Cards -->
+        <div class="admin-grid">
+            <div class="stat-card">
+                <div class="stat-card-left">
+                    <span class="stat-card-title">Total Users</span>
+                    <span id="admin-stat-users" class="stat-card-number">0</span>
+                </div>
+                <div class="stat-card-icon">👥</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-card-left">
+                    <span class="stat-card-title">Anonymous Posts</span>
+                    <span id="admin-stat-posts" class="stat-card-number">0</span>
+                </div>
+                <div class="stat-card-icon">📝</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-card-left">
+                    <span class="stat-card-title">Chat Rooms</span>
+                    <span id="admin-stat-rooms" class="stat-card-number">0</span>
+                </div>
+                <div class="stat-card-icon">💬</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-card-left">
+                    <span class="stat-card-title">Online Now</span>
+                    <span id="admin-stat-online" class="stat-card-number" style="color:#10b981;">0</span>
+                </div>
+                <div class="stat-card-icon">🟢</div>
+            </div>
+        </div>
+        
+        <!-- User Management -->
+        <div class="admin-section">
+            <div class="admin-section-header">
+                <h3>User Management</h3>
+                <p>All registered users in the system</p>
+            </div>
+            <div class="admin-table-wrapper">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Username</th>
+                            <th>Display Name</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Posts</th>
+                            <th>Last Seen</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-users-table-body">
+                        <tr><td colspan="8" style="text-align:center;padding:2rem;color:#64748b;">Loading users...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Post Moderation -->
+        <div class="admin-section">
+            <div class="admin-section-header">
+                <h3>Post Moderation</h3>
+                <p>Moderate anonymous posts (author visible to admin only)</p>
+            </div>
+            <div class="admin-table-wrapper">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Author</th>
+                            <th>Content</th>
+                            <th>Media</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-posts-table-body">
+                        <tr><td colspan="6" style="text-align:center;padding:2rem;color:#64748b;">Loading posts...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Chat Rooms Management -->
+        <div class="admin-section">
+            <div class="admin-section-header">
+                <h3>Chat Rooms</h3>
+                <p>Active chat rooms in the system</p>
+            </div>
+            <div class="admin-table-wrapper">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Room Name</th>
+                            <th>Created By</th>
+                            <th>Messages</th>
+                            <th>Created</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-rooms-table-body">
+                        <tr><td colspan="6" style="text-align:center;padding:2rem;color:#64748b;">Loading rooms...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // ============================================================
+        // 1. NAVBAR
+        // ============================================================
+        function escapeHtml(text) {
+            var div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        function getUser() {
+            try { return JSON.parse(localStorage.getItem('dg_user')); } catch(e) { return null; }
+        }
+        
+        function getToken() {
+            return localStorage.getItem('dg_token');
+        }
+        
+        function isAdmin(user) {
+            if (!user) return false;
+            return user.username === 'gravity888' || user.username === 'security8' || user.is_admin === true;
+        }
+        
+        // Admin Guard – redirect if not admin
+        var currentUser = getUser();
+        if (!isAdmin(currentUser)) {
+            alert('Access denied. Admin only.');
+            window.location.href = 'feed.html';
+        }
+        
+        function updateNavbar() {
+            var token = getToken();
+            var user = getUser();
+            var navbarLinks = document.getElementById('navbar-links');
+            
+            if (token && user) {
+                navbarLinks.innerHTML = '';
+                var links = [
+                    { href: 'feed.html', text: 'Feed' },
+                    { href: 'chat.html', text: 'Chat' },
+                    { href: 'messages.html', text: 'Messages' },
+                    { href: 'friends.html', text: 'Friends' },
+                    { href: 'admin.html', text: '🛡️ Admin' }
+                ];
+                links.forEach(function(item) {
+                    var a = document.createElement('a');
+                    a.href = item.href;
+                    a.textContent = item.text;
+                    navbarLinks.appendChild(a);
+                });
+                
+                var userArea = document.createElement('div');
+                userArea.className = 'user-area';
+                
+                var avatar = document.createElement('img');
+                avatar.src = user.avatar || '/uploads/profiles/default.png';
+                avatar.onerror = function() { this.src = '/uploads/profiles/default.png'; };
+                userArea.appendChild(avatar);
+                
+                var usernameSpan = document.createElement('span');
+                usernameSpan.className = 'username';
+                usernameSpan.textContent = escapeHtml(user.display_name || user.username);
+                userArea.appendChild(usernameSpan);
+                
+                var profileLink = document.createElement('a');
+                profileLink.href = 'profile.html';
+                profileLink.textContent = 'Profile';
+                profileLink.style.padding = '0.4rem 0.8rem'; profileLink.style.fontSize = '0.8rem';
+                userArea.appendChild(profileLink);
+                
+                var settingsLink = document.createElement('a');
+                settingsLink.href = 'settings.html';
+                settingsLink.textContent = 'Settings';
+                settingsLink.style.padding = '0.4rem 0.8rem'; settingsLink.style.fontSize = '0.8rem';
+                userArea.appendChild(settingsLink);
+                
+                var logoutBtn = document.createElement('button');
+                logoutBtn.className = 'logout-btn';
+                logoutBtn.textContent = 'Logout';
+                logoutBtn.addEventListener('click', function() {
+                    localStorage.removeItem('dg_token');
+                    localStorage.removeItem('dg_user');
+                    window.location.href = '../index.html';
+                });
+                userArea.appendChild(logoutBtn);
+                
+                navbarLinks.appendChild(userArea);
+            } else {
+                window.location.href = 'login.html';
+            }
+        }
+        
+        updateNavbar();
+        
+        // ============================================================
+        // 2. ADMIN LOGIC
+        // ============================================================
+        
+        // Load stats
+        var posts = JSON.parse(localStorage.getItem('dg_posts') || '[]');
+        var users = JSON.parse(localStorage.getItem('dg_users') || '[]');
+        var chatRooms = JSON.parse(localStorage.getItem('dg_chat_rooms') || '[]');
+        var friends = JSON.parse(localStorage.getItem('dg_friends') || '[]');
+        var messages = JSON.parse(localStorage.getItem('dg_contacts') || '[]');
+        
+        // If users empty, add defaults
+        if (users.length === 0) {
+            users = [
+                { id:1, username:'gravity888', display_name:'Root Gravity Admin', is_admin:true, is_online:true, posts_count:0, last_seen: new Date().toISOString() },
+                { id:2, username:'security8', display_name:'Security Administrator', is_admin:true, is_online:false, posts_count:0, last_seen: new Date().toISOString() },
+                { id:3, username:'operator', display_name:'Operator', is_admin:false, is_online:false, posts_count:0, last_seen: new Date().toISOString() }
+            ];
+            localStorage.setItem('dg_users', JSON.stringify(users));
+        }
+        
+        // Update stats
+        document.getElementById('admin-stat-users').textContent = users.length;
+        document.getElementById('admin-stat-posts').textContent = posts.length;
+        document.getElementById('admin-stat-rooms').textContent = chatRooms.length;
+        document.getElementById('admin-stat-online').textContent = users.filter(function(u) { return u.is_online; }).length;
+        
+        // Render users table
+        var usersTbody = document.getElementById('admin-users-table-body');
+        usersTbody.innerHTML = users.map(function(user) {
+            return '<tr>' +
+                '<td>' + user.id + '</td>' +
+                '<td><strong>' + escapeHtml(user.username) + '</strong></td>' +
+                '<td>' + escapeHtml(user.display_name || user.username) + '</td>' +
+                '<td>' + (user.is_admin ? '<span class="admin-badge admin-badge-admin">Admin</span>' : '<span class="admin-badge">User</span>') + '</td>' +
+                '<td>' + (user.is_online ? '<span class="admin-badge admin-badge-active">Online</span>' : '<span class="admin-badge admin-badge-inactive">Offline</span>') + '</td>' +
+                '<td>' + (user.posts_count || 0) + '</td>' +
+                '<td style="font-size:0.8rem;">' + new Date(user.last_seen).toLocaleString() + '</td>' +
+                '<td><button class="admin-action-btn danger" onclick="deleteUser(' + user.id + ')">Delete</button></td>' +
+            '</tr>';
+        }).join('');
+        
+        // Render posts table
+        var postsTbody = document.getElementById('admin-posts-table-body');
+        if (posts.length === 0) {
+            postsTbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:#64748b;">No posts to moderate.</td></tr>';
+        } else {
+            postsTbody.innerHTML = posts.map(function(post, index) {
+                return '<tr>' +
+                    '<td>' + (post.id || index) + '</td>' +
+                    '<td>' + escapeHtml(post.author || 'Anonymous') + '</td>' +
+                    '<td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + escapeHtml(post.content || '') + '</td>' +
+                    '<td>' + (post.media ? '📷 Yes' : '—') + '</td>' +
+                    '<td style="font-size:0.8rem;">' + post.time + '</td>' +
+                    '<td><button class="admin-action-btn danger" onclick="deletePost(' + index + ')">Delete</button></td>' +
+                '</tr>';
+            }).join('');
+        }
+        
+        // Render rooms table
+        var roomsTbody = document.getElementById('admin-rooms-table-body');
+        if (chatRooms.length === 0) {
+            roomsTbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:#64748b;">No chat rooms.</td></tr>';
+        } else {
+            roomsTbody.innerHTML = chatRooms.map(function(room) {
+                return '<tr>' +
+                    '<td>' + room.id + '</td>' +
+                    '<td>' + escapeHtml(room.name) + '</td>' +
+                    '<td>' + (room.created_by || 'System') + '</td>' +
+                    '<td>' + (room.messages ? room.messages.length : 0) + '</td>' +
+                    '<td style="font-size:0.8rem;">' + (room.created_at || 'N/A') + '</td>' +
+                    '<td><button class="admin-action-btn danger" onclick="deleteRoom(' + room.id + ')">Delete</button></td>' +
+                '</tr>';
+            }).join('');
+        }
+        
+        // Actions
+        window.deleteUser = function(userId) {
+            if (!confirm('Delete user #' + userId + '?')) return;
+            users = users.filter(function(u) { return u.id !== userId; });
+            localStorage.setItem('dg_users', JSON.stringify(users));
+            location.reload();
+        };
+        
+        window.deletePost = function(index) {
+            if (!confirm('Delete this post?')) return;
+            posts.splice(index, 1);
+            localStorage.setItem('dg_posts', JSON.stringify(posts));
+            location.reload();
+        };
+        
+        window.deleteRoom = function(roomId) {
+            if (!confirm('Delete room #' + roomId + '?')) return;
+            chatRooms = chatRooms.filter(function(r) { return r.id !== roomId; });
+            localStorage.setItem('dg_chat_rooms', JSON.stringify(chatRooms));
+            location.reload();
+        };
+    </script>
+
+</body>
+</html>

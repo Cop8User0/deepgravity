@@ -1,0 +1,396 @@
+<!-- ============================================================
+   DEEPGRAVITY – pages/feed.html (COMPLETE PAGE)
+   Full Standalone Feed Page with Navbar, Sidebar, and Posting
+   ============================================================ -->
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feed – DEEPGRAVITY</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="../css/feed.css">
+    <link rel="stylesheet" href="../css/auth.css">
+    
+    <style>
+        html, body { background:#0a0a0f!important; color:#e2e8f0; margin:0; padding:0; }
+        body { padding-top:60px; font-family:'Inter',system-ui,sans-serif; }
+        
+        /* Navbar */
+        #shared-navbar {
+            height:60px; background:#12121a; border-bottom:1px solid rgba(255,255,255,0.06);
+            display:flex; align-items:center; justify-content:space-between; padding:0 2rem;
+            position:fixed; top:0; left:0; right:0; z-index:100;
+        }
+        .navbar-logo {
+            font-size:1.4rem; font-weight:800;
+            background:linear-gradient(135deg,#8b5cf6,#06b6d4);
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+            text-decoration:none;
+        }
+        .navbar-links { display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap; }
+        .navbar-links a {
+            padding:0.5rem 1rem; background:rgba(139,92,246,0.1);
+            border:1px solid rgba(139,92,246,0.3); border-radius:8px;
+            color:#8b5cf6; text-decoration:none; font-weight:600; font-size:0.9rem;
+            transition:all 0.2s ease; white-space:nowrap;
+        }
+        .navbar-links a:hover { background:rgba(139,92,246,0.2); border-color:#8b5cf6; }
+        .user-area { display:flex; align-items:center; gap:0.75rem; }
+        .user-area img { width:32px; height:32px; border-radius:50%; border:2px solid rgba(139,92,246,0.5); }
+        .user-area .username { font-weight:600; color:#e2e8f0; font-size:0.9rem; }
+        .logout-btn {
+            padding:0.4rem 0.8rem; background:rgba(239,68,68,0.1);
+            border:1px solid rgba(239,68,68,0.3); border-radius:6px;
+            color:#ef4444; cursor:pointer; font-weight:600; font-size:0.8rem;
+        }
+        .logout-btn:hover { background:rgba(239,68,68,0.2); }
+        
+        /* Feed Container */
+        .feed-wrapper {
+            max-width:680px; margin:0 auto; padding:1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================ -->
+    <!-- SHARED NAVBAR                                                  -->
+    <!-- ============================================================ -->
+    <header id="shared-navbar">
+        <a href="../index.html" class="navbar-logo">DEEPGRAVITY</a>
+        <div class="navbar-links" id="navbar-links">
+            <!-- Dynamically filled by JS -->
+        </div>
+    </header>
+
+    <!-- ============================================================ -->
+    <!-- FEED CONTENT                                                   -->
+    <!-- ============================================================ -->
+    <div class="feed-wrapper">
+        
+        <!-- Create Post Card -->
+        <div class="create-post-card">
+            <!-- Textarea -->
+            <textarea id="post-input" class="create-post-textarea" placeholder="Share something anonymously..."></textarea>
+            
+            <!-- Media Preview -->
+            <div id="media-preview-container" class="upload-preview-container">
+                <img id="image-preview" class="upload-preview-image" src="" alt="Preview">
+                <video id="video-preview" class="upload-preview-image" controls style="display:none;"></video>
+                <button id="remove-media-btn" class="remove-preview-btn">&times;</button>
+            </div>
+            
+            <!-- Toolbar -->
+            <div class="create-post-toolbar">
+                <div class="post-toolbar-left">
+                    <label class="upload-btn upload-btn-image">
+                        📷 Image
+                        <input type="file" id="image-input" accept="image/*">
+                    </label>
+                    <label class="upload-btn upload-btn-video">
+                        🎬 Video
+                        <input type="file" id="video-input" accept="video/*">
+                    </label>
+                </div>
+                <button id="post-submit-btn" class="post-submit-btn">Post</button>
+            </div>
+        </div>
+        
+        <!-- Posts Feed -->
+        <div id="feed-posts" class="posts-feed">
+            <!-- Dynamically populated by JavaScript -->
+            <div style="text-align:center;color:#64748b;padding:3rem;">
+                <div style="font-size:3rem;margin-bottom:1rem;">📝</div>
+                <p>Loading posts...</p>
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- JAVASCRIPT                                                     -->
+    <!-- ============================================================ -->
+    <script>
+        // ============================================================
+        // 1. NAVBAR
+        // ============================================================
+        function escapeHtml(text) {
+            var div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        function getUser() {
+            try { return JSON.parse(localStorage.getItem('dg_user')); } catch(e) { return null; }
+        }
+        
+        function getToken() {
+            return localStorage.getItem('dg_token');
+        }
+        
+        function isAdmin(user) {
+            if (!user) return false;
+            return user.username === 'gravity888' || user.username === 'security8' || user.is_admin === true;
+        }
+        
+        function updateNavbar() {
+            var token = getToken();
+            var user = getUser();
+            var navbarLinks = document.getElementById('navbar-links');
+            
+            if (token && user) {
+                navbarLinks.innerHTML = '';
+                
+                var links = [
+                    { href: 'feed.html', text: 'Feed' },
+                    { href: 'chat.html', text: 'Chat' },
+                    { href: 'messages.html', text: 'Messages' },
+                    { href: 'friends.html', text: 'Friends' }
+                ];
+                
+                if (isAdmin(user)) {
+                    links.push({ href: 'admin.html', text: '🛡️ Admin' });
+                }
+                
+                links.forEach(function(item) {
+                    var a = document.createElement('a');
+                    a.href = item.href;
+                    a.textContent = item.text;
+                    navbarLinks.appendChild(a);
+                });
+                
+                var userArea = document.createElement('div');
+                userArea.className = 'user-area';
+                
+                var avatar = document.createElement('img');
+                avatar.src = user.avatar || '/uploads/profiles/default.png';
+                avatar.onerror = function() { this.src = '/uploads/profiles/default.png'; };
+                userArea.appendChild(avatar);
+                
+                var usernameSpan = document.createElement('span');
+                usernameSpan.className = 'username';
+                usernameSpan.textContent = escapeHtml(user.display_name || user.username);
+                userArea.appendChild(usernameSpan);
+                
+                var profileLink = document.createElement('a');
+                profileLink.href = 'profile.html';
+                profileLink.textContent = 'Profile';
+                profileLink.style.padding = '0.4rem 0.8rem';
+                profileLink.style.fontSize = '0.8rem';
+                userArea.appendChild(profileLink);
+                
+                var settingsLink = document.createElement('a');
+                settingsLink.href = 'settings.html';
+                settingsLink.textContent = 'Settings';
+                settingsLink.style.padding = '0.4rem 0.8rem';
+                settingsLink.style.fontSize = '0.8rem';
+                userArea.appendChild(settingsLink);
+                
+                var logoutBtn = document.createElement('button');
+                logoutBtn.className = 'logout-btn';
+                logoutBtn.textContent = 'Logout';
+                logoutBtn.addEventListener('click', function() {
+                    localStorage.removeItem('dg_token');
+                    localStorage.removeItem('dg_user');
+                    window.location.href = '../index.html';
+                });
+                userArea.appendChild(logoutBtn);
+                
+                navbarLinks.appendChild(userArea);
+            } else {
+                navbarLinks.innerHTML = '';
+                var loginLink = document.createElement('a');
+                loginLink.href = 'login.html';
+                loginLink.textContent = 'Login';
+                navbarLinks.appendChild(loginLink);
+                
+                var registerLink = document.createElement('a');
+                registerLink.href = 'register.html';
+                registerLink.textContent = 'Register';
+                navbarLinks.appendChild(registerLink);
+            }
+        }
+        
+        updateNavbar();
+        
+        // ============================================================
+        // 2. FEED MODULE (INLINE)
+        // ============================================================
+        var posts = [];
+        var currentMedia = null;
+        
+        // Load posts
+        try {
+            var stored = localStorage.getItem('dg_posts');
+            if (stored) posts = JSON.parse(stored);
+        } catch(e) {}
+        
+        function savePosts() {
+            try { localStorage.setItem('dg_posts', JSON.stringify(posts)); } catch(e) {}
+        }
+        
+        function renderFeed() {
+            var container = document.getElementById('feed-posts');
+            if (!container) return;
+            
+            if (posts.length === 0) {
+                container.innerHTML = '<div style="text-align:center;color:#64748b;padding:4rem;"><div style="font-size:3rem;margin-bottom:1rem;">📝</div><h3>No Posts Yet</h3><p>Be the first to share!</p></div>';
+                return;
+            }
+            
+            container.innerHTML = posts.map(function(post, index) {
+                var mediaHtml = '';
+                if (post.media) {
+                    if (post.media.type === 'image') {
+                        mediaHtml = '<img src="' + post.media.dataUrl + '" class="post-image" onclick="viewImage(\'' + post.media.dataUrl + '\')">';
+                    } else if (post.media.type === 'video') {
+                        mediaHtml = '<video controls class="post-video"><source src="' + post.media.dataUrl + '"></video>';
+                    }
+                }
+                
+                return '<div class="post-card">' +
+                    '<div class="post-header">' +
+                        '<div class="post-avatar">👤</div>' +
+                        '<div class="post-meta">' +
+                            '<span class="post-author">' + (post.author || 'Anonymous') + '</span>' +
+                            '<span class="post-time">' + post.time + '</span>' +
+                        '</div>' +
+                        '<button class="post-delete-btn" onclick="deletePost(' + index + ')">&times;</button>' +
+                    '</div>' +
+                    (post.content ? '<div class="post-content">' + post.content + '</div>' : '') +
+                    mediaHtml +
+                '</div>';
+            }).join('');
+        }
+        
+        // Create post
+        function createPost() {
+            var textarea = document.getElementById('post-input');
+            var content = textarea.value.trim();
+            if (!content && !currentMedia) return;
+            
+            posts.unshift({
+                id: 'post_' + Date.now(),
+                content: content,
+                media: currentMedia ? { type: currentMedia.type, dataUrl: currentMedia.dataUrl } : null,
+                time: new Date().toLocaleString(),
+                author: 'Anonymous'
+            });
+            
+            savePosts();
+            renderFeed();
+            textarea.value = '';
+            removeMedia();
+            textarea.focus();
+        }
+        
+        // File handling
+        function handleFile(input, type) {
+            var file = input.files[0];
+            if (!file) return;
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                currentMedia = { type: type, dataUrl: e.target.result };
+                var container = document.getElementById('media-preview-container');
+                var img = document.getElementById('image-preview');
+                var vid = document.getElementById('video-preview');
+                var rm = document.getElementById('remove-media-btn');
+                container.style.display = 'block';
+                rm.style.display = 'flex';
+                if (type === 'image') {
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                    vid.style.display = 'none';
+                } else {
+                    vid.src = e.target.result;
+                    vid.style.display = 'block';
+                    img.style.display = 'none';
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        function removeMedia() {
+            currentMedia = null;
+            document.getElementById('media-preview-container').style.display = 'none';
+            document.getElementById('image-preview').style.display = 'none';
+            document.getElementById('video-preview').style.display = 'none';
+            document.getElementById('remove-media-btn').style.display = 'none';
+            document.getElementById('image-input').value = '';
+            document.getElementById('video-input').value = '';
+        }
+        
+        // Delete with confirm dialog
+        function deletePost(index) {
+            var overlay = document.createElement('div');
+            overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:10000;';
+            
+            var card = document.createElement('div');
+            card.style.cssText = 'background:#12121a;border:1px solid rgba(255,255,255,0.06);border-radius:20px;padding:30px;max-width:400px;width:90%;text-align:center;animation:slideDown 0.3s ease;';
+            card.innerHTML = '<div style="font-size:3rem;margin-bottom:16px;">⚠️</div><h3 style="color:#e2e8f0;margin-bottom:8px;">Delete Post</h3><p style="color:#94a3b8;margin-bottom:24px;">This action cannot be undone.</p>';
+            
+            var cancelBtn = document.createElement('button');
+            cancelBtn.textContent = 'Cancel';
+            cancelBtn.style.cssText = 'padding:10px 24px;background:rgba(255,255,255,0.05);color:#94a3b8;border:1px solid rgba(255,255,255,0.1);border-radius:24px;cursor:pointer;margin-right:8px;';
+            cancelBtn.onclick = function() { overlay.remove(); };
+            
+            var deleteBtn = document.createElement('button');
+            deleteBtn.textContent = 'Delete';
+            deleteBtn.style.cssText = 'padding:10px 24px;background:rgba(239,68,68,0.15);color:#ef4444;border:1px solid rgba(239,68,68,0.3);border-radius:24px;cursor:pointer;';
+            deleteBtn.onclick = function() {
+                posts.splice(index, 1);
+                savePosts();
+                renderFeed();
+                overlay.remove();
+            };
+            
+            card.appendChild(cancelBtn);
+            card.appendChild(deleteBtn);
+            overlay.appendChild(card);
+            document.body.appendChild(overlay);
+            overlay.addEventListener('click', function(e) { if (e.target === overlay) overlay.remove(); });
+        }
+        
+        // Image lightbox
+        function viewImage(src) {
+            var overlay = document.createElement('div');
+            overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.92);display:flex;align-items:center;justify-content:center;z-index:10001;cursor:zoom-out;';
+            
+            var closeBtn = document.createElement('button');
+            closeBtn.innerHTML = '&times;';
+            closeBtn.style.cssText = 'position:absolute;top:20px;right:20px;width:48px;height:48px;background:rgba(255,255,255,0.1);border:none;border-radius:50%;color:white;font-size:2rem;cursor:pointer;';
+            closeBtn.onclick = function() { overlay.remove(); };
+            
+            var img = document.createElement('img');
+            img.src = src;
+            img.style.cssText = 'max-width:92%;max-height:90vh;object-fit:contain;border-radius:12px;';
+            
+            overlay.appendChild(closeBtn);
+            overlay.appendChild(img);
+            document.body.appendChild(overlay);
+            overlay.addEventListener('click', function(e) { if (e.target === overlay) overlay.remove(); });
+            document.addEventListener('keydown', function esc(e) { if (e.key === 'Escape') { overlay.remove(); document.removeEventListener('keydown', esc); } });
+        }
+        
+        // Event listeners
+        document.getElementById('post-submit-btn').addEventListener('click', createPost);
+        document.getElementById('image-input').addEventListener('change', function() { handleFile(this, 'image'); });
+        document.getElementById('video-input').addEventListener('change', function() { handleFile(this, 'video'); });
+        document.getElementById('remove-media-btn').addEventListener('click', removeMedia);
+        document.getElementById('post-input').addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'Enter') { e.preventDefault(); createPost(); }
+        });
+        
+        // Initial render
+        renderFeed();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,574 @@
+/* ============================================================
+   DEEPGRAVITY – css/messages.css (EXTENDED)
+   Private Messages – Contacts List, Chat Thread, Input
+   ============================================================ */
+
+/* ============================================================
+   1. MESSAGES LAYOUT GRID
+   ============================================================ */
+.messages-layout {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    height: calc(100vh - 60px);
+    background: #0a0a0f;
+    gap: 0;
+}
+
+/* ============================================================
+   2. LEFT SIDEBAR – CONTACTS LIST
+   ============================================================ */
+.messages-sidebar {
+    background: #12121a;
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Sidebar Header */
+.messages-sidebar-header {
+    padding: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(18, 18, 26, 0.5);
+    backdrop-filter: blur(10px);
+}
+
+.messages-sidebar-header h3 {
+    color: #e2e8f0;
+    font-weight: 700;
+    margin: 0;
+    font-size: 1rem;
+}
+
+/* Add Contact Button */
+#add-contact-btn,
+.add-contact-btn {
+    width: 30px;
+    height: 30px;
+    background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+}
+
+#add-contact-btn:hover,
+.add-contact-btn:hover {
+    transform: scale(1.1) rotate(90deg);
+    box-shadow: 0 4px 20px rgba(139, 92, 246, 0.5);
+}
+
+/* Contacts List Container */
+#conversations-list,
+.conversations-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.06) transparent;
+}
+
+#conversations-list::-webkit-scrollbar,
+.conversations-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+#conversations-list::-webkit-scrollbar-track,
+.conversations-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#conversations-list::-webkit-scrollbar-thumb,
+.conversations-list::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 2px;
+}
+
+/* Contact Item */
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 4px;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+    position: relative;
+}
+
+.contact-item:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.06);
+}
+
+.contact-item.active {
+    background: rgba(139, 92, 246, 0.12);
+    border-color: rgba(139, 92, 246, 0.25);
+}
+
+/* Contact Avatar */
+.contact-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 2px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Online Dot */
+.contact-online-dot {
+    position: absolute;
+    bottom: 1px;
+    right: 1px;
+    width: 10px;
+    height: 10px;
+    background: #10b981;
+    border-radius: 50%;
+    border: 2px solid #12121a;
+    box-shadow: 0 0 6px rgba(16, 185, 129, 0.4);
+}
+
+/* Contact Info */
+.contact-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.contact-name {
+    font-weight: 600;
+    color: #e2e8f0;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.contact-meta {
+    font-size: 0.75rem;
+    color: #64748b;
+    margin-top: 2px;
+}
+
+/* Delete Contact Button */
+.contact-delete-btn {
+    background: none;
+    border: none;
+    color: #64748b;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.contact-delete-btn:hover {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.1);
+}
+
+/* ============================================================
+   3. RIGHT SIDE – CHAT THREAD
+   ============================================================ */
+.messages-main {
+    display: flex;
+    flex-direction: column;
+    background: #0a0a0f;
+}
+
+/* Chat Header */
+.messages-chat-header {
+    padding: 16px 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(15, 15, 24, 0.4);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 56px;
+}
+
+.messages-chat-header .recipient-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.06);
+}
+
+.messages-chat-header .recipient-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.messages-chat-header .recipient-name {
+    color: #e2e8f0;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.messages-chat-header .recipient-status {
+    font-size: 0.75rem;
+    color: #64748b;
+}
+
+.messages-chat-header .recipient-status.online {
+    color: #10b981;
+}
+
+/* Messages Container */
+#private-messages-container,
+.private-messages-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.06) transparent;
+}
+
+#private-messages-container::-webkit-scrollbar,
+.private-messages-container::-webkit-scrollbar {
+    width: 5px;
+}
+
+#private-messages-container::-webkit-scrollbar-track,
+.private-messages-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#private-messages-container::-webkit-scrollbar-thumb,
+.private-messages-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 3px;
+}
+
+/* ============================================================
+   4. MESSAGE BUBBLE
+   ============================================================ */
+.message-bubble {
+    display: flex;
+    gap: 10px;
+    max-width: 70%;
+    align-self: flex-start;
+    animation: messageSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.message-bubble.sent {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+@keyframes messageSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Message Avatar */
+.message-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    color: white;
+}
+
+.message-bubble.received .message-avatar {
+    background: #1a1a2e;
+    color: #94a3b8;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.message-bubble.sent .message-avatar {
+    background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+    box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+}
+
+/* Message Body */
+.message-body {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Sender Name */
+.message-sender {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #06b6d4;
+    margin-bottom: 5px;
+}
+
+.message-bubble.sent .message-sender {
+    color: rgba(255, 255, 255, 0.9);
+    text-align: right;
+}
+
+/* Message Content */
+.message-content {
+    background: #1a1a2e;
+    padding: 12px 16px;
+    border-radius: 0 14px 14px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #e2e8f0;
+    word-break: break-word;
+}
+
+.message-bubble.sent .message-content {
+    background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+    border: none;
+    border-radius: 14px 0 14px 14px;
+    color: white;
+    box-shadow: 0 2px 10px rgba(139, 92, 246, 0.2);
+}
+
+/* Message Time */
+.message-time {
+    font-size: 0.68rem;
+    color: rgba(255, 255, 255, 0.35);
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.message-bubble.sent .message-time {
+    color: rgba(255, 255, 255, 0.65);
+    justify-content: flex-end;
+}
+
+/* Encryption Badge */
+.encryption-badge {
+    font-size: 0.6rem;
+    color: #10b981;
+    margin-top: 2px;
+}
+
+.message-bubble.sent .encryption-badge {
+    text-align: right;
+}
+
+/* ============================================================
+   5. MESSAGE INPUT AREA
+   ============================================================ */
+.messages-input-area {
+    padding: 16px 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(18, 18, 26, 0.85);
+    backdrop-filter: blur(10px);
+}
+
+.messages-input-wrapper {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.messages-input-wrapper input {
+    flex: 1;
+    padding: 0.8rem 1.1rem;
+    background: #0a0a0f;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    color: #e2e8f0;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.messages-input-wrapper input:focus {
+    border-color: #8b5cf6;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+.messages-input-wrapper input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.messages-input-wrapper input::placeholder {
+    color: #64748b;
+}
+
+/* Send Button */
+#private-send-btn,
+.private-send-btn {
+    padding: 10px 22px;
+    background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+    color: white;
+    border: none;
+    border-radius: 24px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+}
+
+#private-send-btn:hover,
+.private-send-btn:hover {
+    box-shadow: 0 6px 25px rgba(139, 92, 246, 0.5);
+    transform: translateY(-2px);
+}
+
+#private-send-btn:disabled,
+.private-send-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+/* ============================================================
+   6. EMPTY STATE
+   ============================================================ */
+.messages-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    color: #64748b;
+    padding: 2rem;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.messages-empty .empty-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.4;
+}
+
+.messages-empty h3 {
+    color: #94a3b8;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.messages-empty p {
+    font-size: 0.9rem;
+    max-width: 300px;
+}
+
+/* ============================================================
+   7. RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+    .messages-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .messages-sidebar {
+        display: none;
+        position: fixed;
+        top: 60px;
+        left: 0;
+        bottom: 0;
+        width: 300px;
+        z-index: 150;
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
+    }
+    
+    .messages-sidebar.open {
+        display: flex;
+    }
+    
+    .message-bubble {
+        max-width: 85%;
+    }
+    
+    #private-messages-container,
+    .private-messages-container {
+        padding: 16px;
+        gap: 10px;
+    }
+    
+    .messages-input-area {
+        padding: 12px 16px;
+    }
+    
+    .messages-chat-header {
+        padding: 12px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .message-bubble {
+        max-width: 90%;
+    }
+    
+    .message-content {
+        padding: 10px 14px;
+        font-size: 0.9rem;
+    }
+    
+    .messages-input-wrapper input {
+        padding: 0.7rem 0.9rem;
+    }
+    
+    #private-send-btn,
+    .private-send-btn {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+    }
+}
+
+/* ============================================================
+   8. PRINT STYLES
+   ============================================================ */
+@media print {
+    .messages-layout {
+        display: block;
+        height: auto;
+    }
+    
+    .messages-sidebar,
+    .messages-input-area,
+    #private-send-btn,
+    #add-contact-btn {
+        display: none !important;
+    }
+    
+    .messages-main {
+        width: 100%;
+    }
+    
+    .message-bubble {
+        max-width: 100%;
+        break-inside: avoid;
+    }
+}

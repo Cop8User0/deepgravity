@@ -1,0 +1,95 @@
+<!-- pages/login.html – Login Page with CSS Link -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEEPGRAVITY – Login</title>
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/auth.css">
+    <link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+    <!-- ============================================================
+   BACK BUTTON SNIPPET
+   Copy THIS ONLY and paste it at the very top of each page,
+   right after <body> opens.
+   ============================================================ -->
+   <header id="shared-navbar" style="height:60px;background:#12121a;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;position:sticky;top:0;z-index:100;"></header>
+<a href="../index.html" style="position:fixed;top:15px;left:20px;z-index:100;padding:0.5rem 1rem;background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.3);border-radius:8px;color:#8b5cf6;text-decoration:none;font-weight:600;font-size:0.9rem;">← Back to Home</a>
+    <div class="auth-wrapper">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1 class="auth-title">DEEPGRAVITY</h1>
+                <p class="auth-subtitle">Sign in to your account</p>
+            </div>
+
+            <form id="login-form" onsubmit="return false;">
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input type="text" id="login-username" placeholder="Enter username..." autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="login-password" placeholder="Enter password..." autocomplete="current-password">
+                </div>
+                <button type="submit" class="auth-submit-btn">Sign In</button>
+            </form>
+            <div id="login-error" class="auth-error" style="display:none;"></div>
+            <div class="auth-footer">
+                Don't have an account? <a href="register.html">Register</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            var form = document.getElementById('login-form');
+            var errorEl = document.getElementById('login-error');
+            var submitBtn = form.querySelector('button[type="submit"]');
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                var username = document.getElementById('login-username').value.trim();
+                var password = document.getElementById('login-password').value.trim();
+
+                if (!username) { showError('Please enter your username.'); return; }
+                if (!password) { showError('Please enter your password.'); return; }
+
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Signing in...';
+
+                setTimeout(function() {
+                    if (password === 'operator' || password === 'deeprock_miner' || password === 'deepgravity' || password === '888dhssbk') {
+                        var user = {
+                            id: username === 'gravity888' ? 0 : 1,
+                            username: username,
+                            display_name: username,
+                            avatar: '/uploads/profiles/default.png',
+                            is_admin: username === 'gravity888'
+                        };
+                        localStorage.setItem('dg_token', 'demo_token_' + Date.now());
+                        localStorage.setItem('dg_user', JSON.stringify(user));
+                        window.location.href = 'feed.html';
+                    } else {
+                        showError('Invalid credentials. Try "operator" / "operator".');
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Sign In';
+                    }
+                }, 500);
+            });
+
+            document.getElementById('login-password').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') form.dispatchEvent(new Event('submit'));
+            });
+
+            function showError(msg) {
+                errorEl.textContent = msg;
+                errorEl.style.display = 'block';
+                setTimeout(function() { errorEl.style.display = 'none'; }, 3000);
+            }
+        })();
+    </script>
+</body>
+</html>

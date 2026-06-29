@@ -1,0 +1,420 @@
+/* ============================================================
+   DEEPGRAVITY – css/friends.css (EXTENDED)
+   Friends Page – Friends List, Requests, Search, Cards
+   ============================================================ */
+
+/* ============================================================
+   1. FRIENDS CONTAINER
+   ============================================================ */
+.friends-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+/* ============================================================
+   2. PAGE HEADER
+   ============================================================ */
+.friends-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.friends-header h2 {
+    color: #e2e8f0;
+    font-weight: 700;
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+/* ============================================================
+   3. TABS
+   ============================================================ */
+.friends-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    margin-bottom: 24px;
+}
+
+.friends-tab-btn {
+    padding: 10px 20px;
+    background: transparent;
+    border: none;
+    color: #64748b;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.9rem;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s ease;
+    position: relative;
+    white-space: nowrap;
+}
+
+.friends-tab-btn:hover {
+    color: #94a3b8;
+}
+
+.friends-tab-btn.active {
+    color: #e2e8f0;
+    border-bottom-color: #8b5cf6;
+}
+
+/* Requests Badge */
+.requests-badge {
+    background: #ef4444;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: none;
+    margin-left: 6px;
+}
+
+.requests-badge.visible {
+    display: inline-block;
+}
+
+/* ============================================================
+   4. SEARCH INPUT
+   ============================================================ */
+.friends-search-container {
+    margin-bottom: 20px;
+}
+
+.friends-search-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: #0a0a0f;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    color: #e2e8f0;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.friends-search-input:focus {
+    border-color: #8b5cf6;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+.friends-search-input::placeholder {
+    color: #64748b;
+}
+
+/* ============================================================
+   5. FRIENDS GRID
+   ============================================================ */
+.friends-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+}
+
+/* ============================================================
+   6. FRIEND CARD
+   ============================================================ */
+.friend-card {
+    background: #12121a;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: cardAppear 0.4s ease both;
+}
+
+@keyframes cardAppear {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.friend-card:hover {
+    border-color: rgba(139, 92, 246, 0.15);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+}
+
+/* Friend Avatar */
+.friend-avatar-wrapper {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.friend-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Online Dot */
+.friend-online-dot {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 12px;
+    height: 12px;
+    background: #10b981;
+    border-radius: 50%;
+    border: 2px solid #12121a;
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+    animation: pulseOnline 2s infinite;
+}
+
+@keyframes pulseOnline {
+    0%, 100% { box-shadow: 0 0 4px rgba(16, 185, 129, 0.3); }
+    50% { box-shadow: 0 0 12px rgba(16, 185, 129, 0.7); }
+}
+
+/* Friend Info */
+.friend-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.friend-name {
+    font-weight: 600;
+    color: #e2e8f0;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.friend-status {
+    font-size: 0.8rem;
+    color: #64748b;
+    margin-top: 2px;
+}
+
+.friend-status.online {
+    color: #10b981;
+}
+
+/* Friend Actions */
+.friend-actions {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.friend-btn {
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    white-space: nowrap;
+}
+
+.friend-btn-message {
+    background: rgba(139, 92, 246, 0.1);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    color: #8b5cf6;
+}
+
+.friend-btn-message:hover {
+    background: rgba(139, 92, 246, 0.2);
+    border-color: rgba(139, 92, 246, 0.5);
+}
+
+.friend-btn-remove {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #ef4444;
+}
+
+.friend-btn-remove:hover {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: rgba(239, 68, 68, 0.5);
+}
+
+.friend-btn-accept {
+    background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+    color: white;
+    border: none;
+    box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+}
+
+.friend-btn-accept:hover {
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.5);
+    transform: translateY(-1px);
+}
+
+.friend-btn-reject {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #64748b;
+}
+
+.friend-btn-reject:hover {
+    background: rgba(255, 255, 255, 0.04);
+    color: #e2e8f0;
+}
+
+.friend-btn-add {
+    background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+    color: white;
+    border: none;
+    box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+}
+
+.friend-btn-add:hover {
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.5);
+    transform: translateY(-1px);
+}
+
+/* ============================================================
+   7. EMPTY STATE
+   ============================================================ */
+.friends-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: #64748b;
+    padding: 4rem 2rem;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.friends-empty .empty-icon {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.friends-empty h3 {
+    color: #94a3b8;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.friends-empty p {
+    font-size: 0.9rem;
+}
+
+/* ============================================================
+   8. USER CARD (Search Results)
+   ============================================================ */
+.user-card {
+    background: #12121a;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.user-card:hover {
+    border-color: rgba(139, 92, 246, 0.15);
+}
+
+.user-card-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.user-card-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.user-card-name {
+    font-weight: 600;
+    color: #e2e8f0;
+}
+
+.user-card-username {
+    font-size: 0.8rem;
+    color: #64748b;
+}
+
+/* ============================================================
+   9. RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+    .friends-container {
+        padding: 0.5rem;
+    }
+    
+    .friends-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 12px;
+    }
+    
+    .friend-card {
+        padding: 14px;
+    }
+    
+    .friends-tab-btn {
+        padding: 8px 14px;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .friends-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .friend-card {
+        flex-wrap: wrap;
+    }
+    
+    .friend-actions {
+        width: 100%;
+        justify-content: flex-end;
+        margin-top: 8px;
+    }
+    
+    .friends-tabs {
+        overflow-x: auto;
+    }
+}
+
+/* ============================================================
+   10. PRINT STYLES
+   ============================================================ */
+@media print {
+    .friend-actions,
+    .friends-tabs,
+    .friends-search-container {
+        display: none !important;
+    }
+    
+    .friend-card {
+        break-inside: avoid;
+        border: 1px solid #ccc;
+        box-shadow: none;
+    }
+}

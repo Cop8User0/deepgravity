@@ -1,0 +1,44 @@
+<!--
+  DEEPGRAVITY – Sidebar Component
+  Left navigation panel loaded into #sidebar by app.js
+-->
+  
+<aside class="sidebar">
+    
+    <!-- Main Navigation Menu -->
+    <nav class="sidebar-nav">
+        <ul class="sidebar-menu">
+            <li class="sidebar-menu-item" id="menu-feed">
+                <a href="#/feed">📝 Posts</a>
+            </li>
+            <li class="sidebar-menu-item" id="menu-chat">
+                <a href="#/chat">💬 Chat Rooms</a>
+            </li>
+            <li class="sidebar-menu-item" id="menu-messages">
+                <a href="#/messages">✉️ Messages</a>
+            </li>
+            <li class="sidebar-menu-item" id="menu-friends">
+                <a href="#/friends">👥 Friends</a>
+            </li>
+            <li class="sidebar-menu-item" id="menu-search">
+                <a href="#/search">🔍 Search</a>
+            </li>
+            <li class="sidebar-menu-item" id="menu-about">
+                <a href="#/about">ℹ️ About</a>
+            </li>
+        </ul>
+    </nav>
+    
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+    
+    <!-- Online Friends Section -->
+    <div class="sidebar-friends">
+        <h4 class="sidebar-friends-title">Online Friends</h4>
+        <div id="sidebar-online-friends" class="sidebar-friends-list">
+            <!-- Dynamically populated by JavaScript -->
+            <span class="sidebar-friends-empty">No online friends</span>
+        </div>
+    </div>
+    
+</aside>

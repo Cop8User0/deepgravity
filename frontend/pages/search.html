@@ -1,0 +1,99 @@
+<!--
+  DEEPGRAVITY – Search Page Fragment
+  Loaded dynamically into #app-container by the SPA router.
+  All styles are hardcoded (no reliance on external CSS).
+-->
+  <!-- ============================================================
+   BACK BUTTON SNIPPET
+   Copy THIS ONLY and paste it at the very top of each page,
+   right after <body> opens.
+   ============================================================ -->
+   <header id="shared-navbar" style="height:60px;background:#12121a;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;position:sticky;top:0;z-index:100;"></header>
+<a href="../index.html" style="position:fixed;top:15px;left:20px;z-index:100;padding:0.5rem 1rem;background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.3);border-radius:8px;color:#8b5cf6;text-decoration:none;font-weight:600;font-size:0.9rem;">← Back to Home</a>
+<div class="animate-fade-in" style="max-width: 800px; margin: 0 auto; padding: 1rem 0;">
+    
+    <!-- Page Header -->
+    <div style="margin-bottom: 1.5rem;">
+        <h2 style="font-weight: 700; color: #e2e8f0; font-size: 1.8rem;">Search Users</h2>
+        <p style="color: #64748b; font-size: 0.9rem; margin-top: 0.3rem;">Find people by username or display name</p>
+    </div>
+    
+    <!-- Search Input -->
+    <div style="margin-bottom: 2rem;">
+        <input type="text" id="global-search-input" placeholder="Enter a name or username..." 
+            style="width: 100%; padding: 1rem 1.25rem; background: #0a0a0f; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; color: #e2e8f0; font-family: 'Inter', system-ui, sans-serif; font-size: 1.1rem; outline: none; transition: border-color 0.3s ease, box-shadow 0.3s ease;"
+            onfocus="this.style.borderColor='#8b5cf6'; this.style.boxShadow='0 0 0 3px rgba(139, 92, 246, 0.1)'" 
+            onblur="this.style.borderColor='rgba(255,255,255,0.06)'; this.style.boxShadow='none'"
+            oninput="handleSearchInput()">
+    </div>
+    
+    <!-- Results Grid -->
+    <div id="search-results-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem;">
+        <!-- Default empty state -->
+        <div style="grid-column: 1 / -1; text-align: center; color: #64748b; padding: 3rem;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🔍</div>
+            <p style="font-weight: 600; color: #94a3b8; margin-bottom: 0.5rem;">Search for Users</p>
+            <p style="font-size: 0.9rem;">Start typing in the search field above to see results.</p>
+        </div>
+    </div>
+
+</div>
+<style>
+html, body {
+    background: #0a0a0f !important;
+    color: #e2e8f0 !important;
+}
+</style>
+<!-- ============================================================ -->
+<!-- INLINE SCRIPT – Search functionality -->
+<!-- ============================================================ -->
+<script>
+(function() {
+    const searchInput = document.getElementById('global-search-input');
+    const resultsGrid = document.getElementById('search-results-grid');
+    
+    // Debounce function
+    let debounceTimer;
+    
+    window.handleSearchInput = function() {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(performSearch, 300);
+    };
+    
+    function performSearch() {
+        const query = searchInput.value.trim();
+        
+        // If empty, show initial state
+        if (!query) {
+            resultsGrid.innerHTML = `
+                <div style="grid-column: 1 / -1; text-align: center; color: #64748b; padding: 3rem;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🔍</div>
+                    <p style="font-weight: 600; color: #94a3b8; margin-bottom: 0.5rem;">Search for Users</p>
+                    <p style="font-size: 0.9rem;">Start typing in the search field above to see results.</p>
+                </div>`;
+            return;
+        }
+        
+        // Show loading
+        resultsGrid.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; color: #64748b; padding: 2rem;">
+                <p>Searching for "${query}"...</p>
+            </div>`;
+        
+        // Simulate API call (replace with real API call)
+        setTimeout(() => {
+            // This is a placeholder – real implementation would call the API
+            resultsGrid.innerHTML = `
+                <div style="grid-column: 1 / -1; text-align: center; color: #64748b; padding: 2rem;">
+                    <p>No users found matching "${query}".</p>
+                    <p style="font-size: 0.85rem; margin-top: 0.5rem;">Try a different search term.</p>
+                </div>`;
+        }, 500);
+    }
+    
+    // Auto-focus search input
+    if (searchInput) {
+        setTimeout(() => searchInput.focus(), 100);
+    }
+})();
+</script>

@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="DEEPGRAVITY — The Most Secure Anonymous Social Platform. 100% Anonymous. End-to-End Encrypted.">
+    <meta name="keywords" content="anonymous, social, encrypted, dark web, privacy, chat, posts, secure">
+    <meta name="author" content="DEEPGRAVITY">
+    <meta name="robots" content="index, follow">
+    <title>DEEPGRAVITY — The Most Secure Anonymous Platform</title>
+    
+    <!-- External CSS -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/feed.css">
+    <link rel="stylesheet" href="css/chat.css">
+    <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="css/messages.css">
+    <link rel="stylesheet" href="css/friends.css">
+    <link rel="stylesheet" href="css/settings.css">
+    <link rel="stylesheet" href="css/notifications.css">
+    <link rel="stylesheet" href="css/darkmode.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%230a0a0f' stroke='%238b5cf6' stroke-width='2'/><polygon points='16,6 28,24 4,24' fill='%238b5cf6'/></svg>">
+    
+    <!-- INLINE STYLES (600+ LINES) -->
+    <style>
+        /* ========== CORE RESET ========== */
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html, body { 
+            background:#0A0A0F!important; color:#E2E8F0; 
+            font-family:'Inter',system-ui,sans-serif; min-height:100vh; overflow-x:hidden;
+            scroll-behavior:smooth;
+        }
+        
+        /* ========== ANIMATED BACKGROUND ========== */
+        body::before {
+            content:''; position:fixed; inset:0; z-index:-1;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(139,92,246,0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(6,182,212,0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(139,92,246,0.06) 0%, transparent 50%);
+            animation: bgMove 25s ease-in-out infinite alternate;
+        }
+        @keyframes bgMove {
+            0%{transform:scale(1) translate(0,0)} 50%{transform:scale(1.15) translate(-3%,-2%)} 100%{transform:scale(1) translate(3%,2%)}
+        }
+        
+        /* Star particles */
+        body::after {
+            content:''; position:fixed; inset:0; z-index:-1;
+            background-image: 
+                radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.3), transparent),
+                radial-gradient(1px 1px at 20% 60%, rgba(255,255,255,0.2), transparent),
+                radial-gradient(1px 1px at 30% 10%, rgba(255,255,255,0.4), transparent),
+                radial-gradient(1px 1px at 40% 80%, rgba(255,255,255,0.2), transparent),
+                radial-gradient(1px 1px at 50% 30%, rgba(255,255,255,0.3), transparent),
+                radial-gradient(1px 1px at 60% 70%, rgba(255,255,255,0.15), transparent),
+                radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,0.25), transparent),
+                radial-gradient(1px 1px at 80% 90%, rgba(255,255,255,0.2), transparent),
+                radial-gradient(1px 1px at 90% 15%, rgba(255,255,255,0.3), transparent),
+                radial-gradient(2px 2px at 25% 45%, rgba(139,92,246,0.5), transparent),
+                radial-gradient(2px 2px at 65% 25%, rgba(6,182,212,0.4), transparent),
+                radial-gradient(2px 2px at 45% 75%, rgba(139,92,246,0.4), transparent);
+            background-size: 250% 250%;
+            animation: starsDrift 80s linear infinite;
+        }
+        @keyframes starsDrift {
+            0%{background-position:0% 0%} 100%{background-position:100% 100%}
+        }
+        
+        /* ========== LOGO ========== */
+        .logo-section { text-align:center; padding:2.5rem 1rem 1rem; }
+        .logo-section svg { filter:drop-shadow(0 0 30px rgba(139,92,246,0.5)); transition:all 0.5s ease; }
+        .logo-section svg:hover { filter:drop-shadow(0 0 50px rgba(139,92,246,0.8)); transform:scale(1.05); }
+        
+        /* ========== NAVBAR ========== */
+        #navbar {
+            display:flex; align-items:center; justify-content:space-between;
+            padding:0 2rem; height:64px; background:rgba(18,18,26,0.92);
+            backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+            border-bottom:1px solid rgba(255,255,255,0.06); position:sticky; top:0; z-index:1000;
+            box-shadow:0 2px 20px rgba(0,0,0,0.3);
+        }
+        .navbar-logo {
+            font-size:1.5rem; font-weight:800;
+            background:linear-gradient(135deg,#8B5CF6,#06B6D4);
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-decoration:none;
+            letter-spacing:-0.02em;
+        }
+        .navbar-links { display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap; }
+        .navbar-links a {
+            padding:0.5rem 1rem; background:rgba(139,92,246,0.08);
+            border:1px solid rgba(139,92,246,0.2); border-radius:8px;
+            color:#8B5CF6; text-decoration:none; font-weight:600; font-size:0.875rem;
+            transition:all 0.25s ease; white-space:nowrap; position:relative; overflow:hidden;
+        }
+        .navbar-links a::before {
+            content:''; position:absolute; top:0; left:-100%; width:100%; height:100%;
+            background:linear-gradient(90deg, transparent, rgba(139,92,246,0.1), transparent);
+            transition:left 0.5s;
+        }
+        .navbar-links a:hover::before { left:100%; }
+        .navbar-links a:hover { background:rgba(139,92,246,0.15); border-color:#8B5CF6; box-shadow:0 0 15px rgba(139,92,246,0.3); transform:translateY(-2px); }
+        .admin-link { background:rgba(6,182,212,0.12)!important; border-color:rgba(6,182,212,0.3)!important; color:#06B6D4!important; }
+        .admin-link:hover { background:rgba(6,182,212,0.2)!important; box-shadow:0 0 15px rgba(6,182,212,0.3)!important; }
+        
+        .user-area { display:flex; align-items:center; gap:0.75rem; }
+        .user-area .avatar { width:34px; height:34px; border-radius:50%; object-fit:cover; border:2px solid rgba(139,92,246,0.5); transition:all 0.3s ease; }
+        .user-area .avatar:hover { border-color:#8B5CF6; transform:scale(1.1); }
+        .user-area .username { font-weight:600; color:#E2E8F0; font-size:0.9rem; }
+        .logout-btn {
+            padding:0.35rem 0.75rem; background:rgba(239,68,68,0.08);
+            border:1px solid rgba(239,68,68,0.25); border-radius:6px;
+            color:#EF4444; cursor:pointer; font-weight:600; font-size:0.8rem; transition:all 0.25s ease;
+        }
+        .logout-btn:hover { background:rgba(239,68,68,0.15); border-color:#EF4444; box-shadow:0 0 12px rgba(239,68,68,0.3); }
+        
+        /* ========== HERO ========== */
+        .hero-banner {
+            position:relative; max-width:1200px; min-height:450px; margin:2.5rem auto; border-radius:24px;
+            overflow:hidden; display:flex; align-items:center; justify-content:center;
+            background:linear-gradient(135deg, #0A0A0F 0%, #1A0A2E 40%, #0A1A2E 70%, #0A0A0F 100%);
+            background-size:400% 400%; animation:gradientShift 15s ease infinite;
+            border:1px solid rgba(139,92,246,0.2); box-shadow:0 0 80px rgba(139,92,246,0.15);
+        }
+        @keyframes gradientShift {
+            0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%}
+        }
+        .hero-banner::before {
+            content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%;
+            background:radial-gradient(circle, rgba(139,92,246,0.12) 0%, transparent 60%);
+            animation:rotate 25s linear infinite;
+        }
+        @keyframes rotate { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+        .hero-content { position:relative; z-index:1; text-align:center; padding:2rem; animation:fadeInUp 1s ease; }
+        @keyframes fadeInUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+        .hero-content h1 {
+            font-size:clamp(2rem, 5vw, 3.5rem); font-weight:800;
+            background:linear-gradient(135deg,#8B5CF6,#06B6D4);
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+            margin-bottom:1rem; line-height:1.2;
+        }
+        .hero-content p { color:#94A3B8; font-size:1.15rem; max-width:600px; margin:0 auto 2rem; }
+        .hero-btn {
+            display:inline-block; padding:1rem 2.5rem;
+            background:linear-gradient(135deg,#8B5CF6,#06B6D4); color:white;
+            border-radius:24px; text-decoration:none; font-weight:600; font-size:1.1rem;
+            box-shadow:0 4px 25px rgba(139,92,246,0.4); transition:all 0.3s ease;
+            border:1px solid transparent; position:relative; overflow:hidden;
+        }
+        .hero-btn::after {
+            content:''; position:absolute; top:50%; left:50%; width:0; height:0;
+            background:rgba(255,255,255,0.2); border-radius:50%;
+            transform:translate(-50%,-50%); transition:width 0.6s, height 0.6s;
+        }
+        .hero-btn:hover::after { width:300px; height:300px; }
+        .hero-btn:hover { box-shadow:0 8px 40px rgba(139,92,246,0.6); transform:translateY(-3px); border-color:rgba(255,255,255,0.15); }
+        
+        /* ========== FEATURES ========== */
+        .features-section { padding:4rem 1rem; }
+        .section-title {
+            text-align:center; font-size:2.2rem; font-weight:700; color:#E2E8F0; margin-bottom:0.5rem;
+        }
+        .section-subtitle { text-align:center; color:#94A3B8; margin-bottom:3rem; font-size:1.05rem; }
+        .features-grid {
+            display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr));
+            gap:1.5rem; max-width:1100px; margin:0 auto;
+        }
+        .feature-card {
+            background:#12121A; border:1px solid rgba(255,255,255,0.06); border-radius:20px;
+            padding:2.5rem 2rem; text-align:center; transition:all 0.4s ease;
+            position:relative; overflow:hidden;
+        }
+        .feature-card::before {
+            content:''; position:absolute; top:0; left:0; right:0; height:3px;
+            background:linear-gradient(90deg,#8B5CF6,#06B6D4); opacity:0; transition:opacity 0.4s ease;
+        }
+        .feature-card:hover::before { opacity:1; }
+        .feature-card:hover { border-color:rgba(139,92,246,0.35); transform:translateY(-8px); box-shadow:0 20px 50px rgba(0,0,0,0.5); }
+        .feature-icon { font-size:3.5rem; margin-bottom:1.2rem; transition:transform 0.4s ease; }
+        .feature-card:hover .feature-icon { transform:scale(1.2) rotate(5deg); }
+        .feature-card h3 { color:#E2E8F0; font-weight:700; margin-bottom:0.6rem; font-size:1.2rem; }
+        .feature-card p { color:#94A3B8; font-size:0.95rem; line-height:1.7; }
+        
+        /* ========== AD BANNERS ========== */
+        .ad-container {
+            max-width:1200px; margin:2rem auto; padding:0 1rem;
+            display:flex; flex-direction:column; gap:1.5rem;
+        }
+        .ad-leaderboard {
+            background:#12121A; border:2px solid rgba(139,92,246,0.25); border-radius:16px;
+            padding:1.25rem 2rem; display:flex; align-items:center; justify-content:space-between;
+            gap:1.5rem; box-shadow:0 4px 25px rgba(0,0,0,0.3); transition:all 0.3s ease;
+        }
+        .ad-leaderboard:hover { border-color:rgba(139,92,246,0.5); box-shadow:0 8px 35px rgba(139,92,246,0.2); }
+        .ad-leaderboard .ad-text { color:#E2E8F0; font-weight:600; font-size:1rem; }
+        .ad-leaderboard .ad-highlight { color:#06B6D4; font-weight:700; }
+        .ad-btn {
+            padding:0.6rem 1.5rem; background:linear-gradient(135deg,#8B5CF6,#06B6D4); color:white;
+            border-radius:20px; text-decoration:none; font-weight:600; font-size:0.9rem;
+            box-shadow:0 0 15px rgba(139,92,246,0.4); transition:all 0.3s ease; white-space:nowrap;
+        }
+        .ad-btn:hover { box-shadow:0 0 30px rgba(139,92,246,0.7); transform:translateY(-2px); }
+        
+        .side-banner {
+            background:#12121A; border:2px solid rgba(6,182,212,0.25); border-radius:16px;
+            padding:1.5rem; text-align:center; box-shadow:0 4px 25px rgba(0,0,0,0.3);
+            transition:all 0.3s ease; position:relative; overflow:hidden;
+        }
+        .side-banner::before {
+            content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%;
+            background:radial-gradient(circle, rgba(6,182,212,0.08) 0%, transparent 60%);
+            animation:rotate 18s linear infinite;
+        }
+        .side-banner:hover { border-color:rgba(6,182,212,0.5); box-shadow:0 8px 35px rgba(6,182,212,0.2); }
+        .side-banner .sb-title { color:#E2E8F0; font-weight:700; font-size:1.1rem; margin:1rem 0 0.5rem; position:relative; z-index:1; }
+        .side-banner .sb-text { color:#94A3B8; font-size:0.85rem; margin-bottom:1rem; position:relative; z-index:1; }
+        
+        /* ========== FOOTER ========== */
+        .site-footer {
+            text-align:center; padding:2.5rem 1rem; color:#64748B; font-size:0.85rem;
+            border-top:1px solid rgba(255,255,255,0.06); margin-top:4rem; background:#0A0A0F;
+        }
+        .site-footer a { color:#8B5CF6; text-decoration:none; transition:color 0.2s; }
+        .site-footer a:hover { color:#06B6D4; }
+        
+        /* ========== RESPONSIVE ========== */
+        @media(max-width:1024px) {
+            .hero-banner { min-height:380px; }
+        }
+        @media(max-width:768px) {
+            #navbar { padding:0 1rem; height:auto; min-height:60px; flex-wrap:wrap; gap:0.5rem; }
+            .navbar-links { width:100%; justify-content:flex-start; padding-bottom:0.5rem; }
+            .navbar-links a { padding:0.4rem 0.8rem; font-size:0.8rem; }
+            .hero-banner { min-height:300px; margin:1rem; }
+            .hero-content h1 { font-size:1.8rem; }
+            .ad-leaderboard { flex-direction:column; text-align:center; }
+            .features-grid { grid-template-columns:1fr; padding:0 1rem; }
+            .features-section { padding:2rem 0.5rem; }
+        }
+        @media(max-width:480px) {
+            .navbar-logo { font-size:1.2rem; }
+            .hero-content h1 { font-size:1.5rem; }
+            .hero-btn { padding:0.7rem 1.8rem; font-size:0.95rem; }
+            .feature-card { padding:1.8rem 1.2rem; }
+            .feature-icon { font-size:2.5rem; }
+            .section-title { font-size:1.6rem; }
+            .ad-leaderboard { padding:1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- LOGO -->
+    <div class="logo-section">
+        <svg width="280" height="90" viewBox="0 0 280 90" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#8B5CF6"/><stop offset="100%" stop-color="#06B6D4"/>
+                </linearGradient>
+                <filter id="gl"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            </defs>
+            <circle cx="45" cy="45" r="35" fill="none" stroke="url(#lg)" stroke-width="2.5" opacity="0.25"/>
+            <circle cx="45" cy="45" r="25" fill="none" stroke="url(#lg)" stroke-width="3" opacity="0.5"/>
+            <circle cx="45" cy="45" r="15" fill="none" stroke="url(#lg)" stroke-width="1.5" opacity="0.75"/>
+            <polygon points="45,20 63,60 27,60" fill="url(#lg)" filter="url(#gl)"/>
+            <text x="90" y="56" font-family="'Inter','Segoe UI',sans-serif" font-weight="800" font-size="30" fill="url(#lg)" filter="url(#gl)" letter-spacing="2.5">DEEPGRAVITY</text>
+        </svg>
+    </div>
+
+    <!-- NAVBAR -->
+    <header id="navbar">
+        <a href="index.html" class="navbar-logo">DEEPGRAVITY</a>
+        <div class="navbar-links" id="navbar-links"></div>
+    </header>
+
+    <!-- HERO -->
+    <div class="hero-banner">
+        <div class="hero-content">
+            <h1>The Most Secure Anonymous Platform</h1>
+            <p><i class="fas fa-shield-halved"></i> Anonymous Posts &nbsp;|&nbsp; <i class="fas fa-lock"></i> Encrypted Messages &nbsp;|&nbsp; <i class="fas fa-user-shield"></i> Admin Protected</p>
+            <a href="pages/login.html" class="hero-btn"><i class="fas fa-right-to-bracket"></i> Enter the Gravity</a>
+        </div>
+    </div>
+
+    <!-- FEATURES -->
+    <section class="features-section">
+        <h2 class="section-title">Why DEEPGRAVITY?</h2>
+        <p class="section-subtitle">Built for those who demand absolute privacy</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-ghost"></i></div>
+                <h3>100% Anonymous</h3>
+                <p>No email, no phone, no identity required. You are a ghost here. Post, chat, and share without fear.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-key"></i></div>
+                <h3>End-to-End Encrypted</h3>
+                <p>Every message is locked with military-grade encryption. Only the intended recipient can read it.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-eye"></i></div>
+                <h3>Admin Protected 24/7</h3>
+                <p>Our security team monitors the platform around the clock. Harassment and threats are eliminated instantly.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- AD BANNERS -->
+    <div class="ad-container">
+        <div class="ad-leaderboard">
+            <div style="display:flex;align-items:center;gap:12px;">
+                <i class="fas fa-crown" style="color:#F59E0B;font-size:1.5rem;"></i>
+                <span style="font-weight:800;background:linear-gradient(135deg,#8B5CF6,#06B6D4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.2rem;">DEEPGRAVITY</span>
+            </div>
+            <div class="ad-text">Tired of being watched? <span class="ad-highlight">Join the most secure platform on Earth.</span></div>
+            <a href="pages/login.html" class="ad-btn"><i class="fas fa-rocket"></i> JOIN FREE</a>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <p>&copy; 2026 DEEPGRAVITY. <strong>No logs. No tracking. All data encrypted.</strong></p>
+        <p style="margin-top:6px;">
+            <a href="pages/about.html"><i class="fas fa-circle-info"></i> About</a> &nbsp;|&nbsp;
+            <a href="mailto:deepcore8@gmail.com"><i class="fas fa-envelope"></i> Contact</a> &nbsp;|&nbsp;
+            <a href="#"><i class="fas fa-shield-halved"></i> Privacy</a> &nbsp;|&nbsp;
+            <a href="#"><i class="fas fa-file-contract"></i> Terms</a>
+        </p>
+    </footer>
+
+    <!-- TOAST -->
+    <div id="toast-container"></div>
+
+    <!-- SOUNDS -->
+    <audio id="sound-hover" src="assets/icons/hover.wav" preload="auto"></audio>
+    <audio id="sound-click" src="assets/icons/click.wav" preload="auto"></audio>
+
+    <!-- SOUND ENGINE -->
+    <script>
+        const Sound = {
+            ctx:null, init(){this.ctx=new(window.AudioContext||window.webkitAudioContext)();},
+            hover(){if(!this.ctx)this.init();const o=this.ctx.createOscillator(),g=this.ctx.createGain();o.connect(g);g.connect(this.ctx.destination);o.frequency.value=880;o.type='sine';g.gain.setValueAtTime(0.04,this.ctx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,this.ctx.currentTime+0.06);o.start();o.stop(this.ctx.currentTime+0.06);},
+            click(){if(!this.ctx)this.init();const o=this.ctx.createOscillator(),g=this.ctx.createGain();o.connect(g);g.connect(this.ctx.destination);o.frequency.value=220;o.type='sine';g.gain.setValueAtTime(0.18,this.ctx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,this.ctx.currentTime+0.08);o.start();o.stop(this.ctx.currentTime+0.08);}
+        };
+        document.addEventListener('mouseover',e=>{if(e.target.closest('a,button,.btn,.nav-link,.hero-btn,.ad-btn'))Sound.hover();});
+        document.addEventListener('click',e=>{if(e.target.closest('a,button,.btn,.nav-link,.hero-btn,.ad-btn'))Sound.click();});
+    </script>
+
+    <!-- NAVBAR LOGIC -->
+    <script>
+        (function(){
+            function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML;}
+            function getUser(){try{return JSON.parse(localStorage.getItem('dg_user'))}catch(e){return null}}
+            function getToken(){return localStorage.getItem('dg_token')}
+            function isAdmin(u){return u&&(u.username==='gravity888'||u.username==='security8'||u.is_admin===true);}
+            function updateNavbar(){
+                var t=getToken(),u=getUser(),nl=document.getElementById('navbar-links'),eb=document.getElementById('enter-btn');
+                if(t&&u){
+                    nl.innerHTML='';
+                    var links=[{h:'pages/feed.html',t:'<i class="fas fa-newspaper"></i> Feed'},{h:'pages/chat.html',t:'<i class="fas fa-comments"></i> Chat'},{h:'pages/messages.html',t:'<i class="fas fa-envelope"></i> Messages'},{h:'pages/friends.html',t:'<i class="fas fa-users"></i> Friends'}];
+                    if(isAdmin(u)) links.push({h:'pages/admin.html',t:'<i class="fas fa-shield"></i> Admin',c:'admin-link'});
+                    links.forEach(function(l){var a=document.createElement('a');a.href=l.h;a.innerHTML=l.t;if(l.c)a.className=l.c;nl.appendChild(a);});
+                    var ua=document.createElement('div');ua.className='user-area';
+                    var av=document.createElement('img');av.src=u.avatar||'/uploads/profiles/default.png';av.className='avatar';av.onerror=function(){this.src='/uploads/profiles/default.png';};ua.appendChild(av);
+                    var us=document.createElement('span');us.className='username';us.textContent=esc(u.display_name||u.username);ua.appendChild(us);
+                    var pl=document.createElement('a');pl.href='pages/profile.html';pl.innerHTML='<i class="fas fa-user"></i>';pl.style.cssText='padding:0.4rem 0.6rem;font-size:0.85rem;';ua.appendChild(pl);
+                    var sl=document.createElement('a');sl.href='pages/settings.html';sl.innerHTML='<i class="fas fa-gear"></i>';sl.style.cssText='padding:0.4rem 0.6rem;font-size:0.85rem;';ua.appendChild(sl);
+                    var lb=document.createElement('button');lb.className='logout-btn';lb.innerHTML='<i class="fas fa-right-from-bracket"></i>';lb.addEventListener('click',function(){localStorage.removeItem('dg_token');localStorage.removeItem('dg_user');updateNavbar();});ua.appendChild(lb);
+                    nl.appendChild(ua);if(eb)eb.style.display='none';
+                }else{
+                    nl.innerHTML='<a href="pages/login.html"><i class="fas fa-key"></i> Login</a><a href="pages/register.html"><i class="fas fa-user-plus"></i> Register</a>';
+                    if(eb)eb.style.display='inline-block';
+                }
+            }
+            updateNavbar();window.addEventListener('storage',updateNavbar);
+        })();
+    </script>
+
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/notifications.js"></script>
+
+</body>
+</html>

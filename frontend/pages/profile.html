@@ -1,0 +1,253 @@
+<!-- ============================================================
+   DEEPGRAVITY – pages/profile.html (COMPLETE)
+   Profile Page – Avatar Upload, Display Name, Bio, Stats
+   ============================================================ -->
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile – DEEPGRAVITY</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/profile.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    
+    <style>
+        html, body { background:#0a0a0f!important; color:#e2e8f0; margin:0; padding:0; }
+        body { padding-top:60px; font-family:'Inter',system-ui,sans-serif; }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================ -->
+    <!-- SHARED NAVBAR                                                  -->
+    <!-- ============================================================ -->
+    <header id="shared-navbar" style="height:60px;background:#12121a;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;position:fixed;top:0;left:0;right:0;z-index:100;"></header>
+
+    <!-- ============================================================ -->
+    <!-- PROFILE CONTENT                                                -->
+    <!-- ============================================================ -->
+    <div style="max-width:600px;margin:0 auto;padding:2rem 1rem;">
+        
+        <!-- Profile Card -->
+        <div style="background:#12121a;border:1px solid rgba(255,255,255,0.06);border-radius:20px;padding:40px 30px;text-align:center;position:relative;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.4);">
+            
+            <!-- Gradient Top Border -->
+            <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(135deg,#8b5cf6,#06b6d4);"></div>
+            
+            <!-- Avatar -->
+            <div style="position:relative;display:inline-block;margin-bottom:20px;">
+                <img id="profile-avatar" src="/uploads/profiles/default.png" alt="Avatar" 
+                    style="width:120px;height:120px;border-radius:50%;object-fit:cover;border:3px solid rgba(139,92,246,0.3);transition:all 0.3s ease;">
+                
+                <!-- Upload Overlay -->
+                <label id="avatar-upload-label" 
+                    style="position:absolute;bottom:0;right:0;width:36px;height:36px;background:#8b5cf6;color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.2rem;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.4);"
+                    onmouseover="this.style.background='#7c3aed'" 
+                    onmouseout="this.style.background='#8b5cf6'">
+                    📷
+                    <input type="file" id="avatar-file-input" accept="image/*" style="display:none;" onchange="handleAvatarUpload(event)">
+                </label>
+            </div>
+            
+            <!-- Display Name -->
+            <h2 id="profile-display-name" style="color:#e2e8f0;font-weight:700;font-size:1.5rem;margin-bottom:8px;">gravity888</h2>
+            
+            <!-- Bio -->
+            <p id="profile-bio" style="color:#94a3b8;max-width:400px;margin:0 auto 20px;line-height:1.6;">Deepcore operator. Trading and encryption enthusiast.</p>
+            
+            <!-- Stats -->
+            <div style="display:flex;justify-content:center;gap:3rem;padding:16px 0;border-top:1px solid rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06);margin-bottom:20px;">
+                <div style="text-align:center;">
+                    <div id="profile-stat-posts" style="font-size:1.8rem;font-weight:700;color:#e2e8f0;">0</div>
+                    <div style="font-size:0.8rem;color:#64748b;text-transform:uppercase;">Posts</div>
+                </div>
+                <div style="text-align:center;">
+                    <div id="profile-stat-friends" style="font-size:1.8rem;font-weight:700;color:#e2e8f0;">0</div>
+                    <div style="font-size:0.8rem;color:#64748b;text-transform:uppercase;">Friends</div>
+                </div>
+            </div>
+            
+            <!-- Edit Form (hidden by default) -->
+            <div id="profile-edit-form" style="display:none;text-align:left;margin-top:20px;">
+                <div style="margin-bottom:16px;">
+                    <label style="display:block;color:#94a3b8;font-size:0.85rem;font-weight:500;margin-bottom:6px;">Display Name</label>
+                    <input type="text" id="edit-display-name" 
+                        style="width:100%;padding:0.75rem;background:#0a0a0f;border:1px solid rgba(255,255,255,0.06);border-radius:8px;color:#e2e8f0;font-family:inherit;font-size:0.95rem;outline:none;">
+                </div>
+                <div style="margin-bottom:16px;">
+                    <label style="display:block;color:#94a3b8;font-size:0.85rem;font-weight:500;margin-bottom:6px;">Bio</label>
+                    <textarea id="edit-bio" rows="3"
+                        style="width:100%;padding:0.75rem;background:#0a0a0f;border:1px solid rgba(255,255,255,0.06);border-radius:8px;color:#e2e8f0;font-family:inherit;font-size:0.95rem;outline:none;resize:vertical;"></textarea>
+                </div>
+                <div style="display:flex;gap:10px;">
+                    <button id="save-profile-btn" 
+                        style="padding:0.6rem 1.5rem;background:linear-gradient(135deg,#8b5cf6,#06b6d4);color:white;border:none;border-radius:24px;font-weight:600;cursor:pointer;font-size:0.9rem;">
+                        Save Changes
+                    </button>
+                    <button id="cancel-edit-btn" 
+                        style="padding:0.6rem 1.5rem;background:rgba(255,255,255,0.05);color:#94a3b8;border:1px solid rgba(255,255,255,0.1);border-radius:24px;font-weight:600;cursor:pointer;font-size:0.9rem;">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div id="profile-actions">
+                <button id="edit-profile-btn" 
+                    style="padding:0.6rem 2rem;background:linear-gradient(135deg,#8b5cf6,#06b6d4);color:white;border:none;border-radius:24px;font-weight:600;cursor:pointer;font-size:0.9rem;transition:all 0.3s ease;box-shadow:0 4px 15px rgba(139,92,246,0.3);">
+                    Edit Profile
+                </button>
+            </div>
+            
+        </div>
+        
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- JAVASCRIPT – Profile Logic                                    -->
+    <!-- ============================================================ -->
+    <script>
+        // Load shared navbar
+        document.getElementById('shared-navbar').innerHTML = `
+            <a href="../index.html" style="font-size:1.4rem;font-weight:800;background:linear-gradient(135deg,#8b5cf6,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;">DEEPGRAVITY</a>
+            <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+                <a href="feed.html" style="padding:0.5rem 1rem;background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.3);border-radius:8px;color:#8b5cf6;text-decoration:none;font-weight:600;font-size:0.9rem;">Feed</a>
+                <a href="chat.html" style="padding:0.5rem 1rem;background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.3);border-radius:8px;color:#8b5cf6;text-decoration:none;font-weight:600;font-size:0.9rem;">Chat</a>
+                <a href="messages.html" style="padding:0.5rem 1rem;background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.3);border-radius:8px;color:#8b5cf6;text-decoration:none;font-weight:600;font-size:0.9rem;">Messages</a>
+                <a href="friends.html" style="padding:0.5rem 1rem;background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.3);border-radius:8px;color:#8b5cf6;text-decoration:none;font-weight:600;font-size:0.9rem;">Friends</a>
+                <a href="settings.html" style="padding:0.5rem 1rem;background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.3);border-radius:8px;color:#8b5cf6;text-decoration:none;font-weight:600;font-size:0.9rem;">Settings</a>
+                <a href="../index.html" style="padding:0.5rem 1rem;background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.3);border-radius:8px;color:#8b5cf6;text-decoration:none;font-weight:600;font-size:0.9rem;">🏠 Home</a>
+            </div>
+        `;
+
+        // ============================================================
+        // PROFILE LOGIC
+        // ============================================================
+        
+        // Load profile from localStorage
+        var profile = {
+            displayName: 'gravity888',
+            bio: 'Deepcore operator. Trading and encryption enthusiast.',
+            avatar: '/uploads/profiles/default.png'
+        };
+        
+        try {
+            var stored = localStorage.getItem('dg_profile');
+            if (stored) {
+                var parsed = JSON.parse(stored);
+                profile.displayName = parsed.displayName || profile.displayName;
+                profile.bio = parsed.bio || profile.bio;
+                profile.avatar = parsed.avatar || profile.avatar;
+            }
+        } catch(e) {}
+        
+        // Load stats
+        var postsCount = 0;
+        var friendsCount = 0;
+        try {
+            var posts = JSON.parse(localStorage.getItem('dg_posts') || '[]');
+            postsCount = posts.length;
+            var friends = JSON.parse(localStorage.getItem('dg_friends') || '[]');
+            friendsCount = friends.length;
+        } catch(e) {}
+        
+        // Update UI
+        function updateUI() {
+            document.getElementById('profile-avatar').src = profile.avatar;
+            document.getElementById('profile-display-name').textContent = profile.displayName;
+            document.getElementById('profile-bio').textContent = profile.bio;
+            document.getElementById('profile-stat-posts').textContent = postsCount;
+            document.getElementById('profile-stat-friends').textContent = friendsCount;
+            
+            // Also update navbar avatar if it exists
+            var navAvatar = document.querySelector('#shared-navbar img');
+            if (!navAvatar) {
+                // Update avatar everywhere
+                var allAvatars = document.querySelectorAll('img[src*="profiles"]');
+                allAvatars.forEach(function(img) {
+                    if (img.id !== 'profile-avatar') {
+                        img.src = profile.avatar;
+                    }
+                });
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('dg_profile', JSON.stringify(profile));
+            
+            // Update global user
+            try {
+                var user = JSON.parse(localStorage.getItem('dg_user') || '{}');
+                user.avatar = profile.avatar;
+                user.display_name = profile.displayName;
+                user.bio = profile.bio;
+                localStorage.setItem('dg_user', JSON.stringify(user));
+            } catch(e) {}
+        }
+        
+        // Handle avatar upload
+        window.handleAvatarUpload = function(event) {
+            var file = event.target.files[0];
+            if (!file) return;
+            
+            if (!file.type.startsWith('image/')) {
+                alert('Please select an image file.');
+                return;
+            }
+            
+            if (file.size > 2 * 1024 * 1024) {
+                alert('Image must be less than 2MB.');
+                return;
+            }
+            
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                profile.avatar = e.target.result;
+                updateUI();
+            };
+            reader.readAsDataURL(file);
+        };
+        
+        // Edit profile
+        document.getElementById('edit-profile-btn').addEventListener('click', function() {
+            document.getElementById('edit-display-name').value = profile.displayName;
+            document.getElementById('edit-bio').value = profile.bio;
+            document.getElementById('profile-edit-form').style.display = 'block';
+            document.getElementById('profile-actions').style.display = 'none';
+        });
+        
+        // Cancel edit
+        document.getElementById('cancel-edit-btn').addEventListener('click', function() {
+            document.getElementById('profile-edit-form').style.display = 'none';
+            document.getElementById('profile-actions').style.display = 'block';
+        });
+        
+        // Save profile
+        document.getElementById('save-profile-btn').addEventListener('click', function() {
+            var newName = document.getElementById('edit-display-name').value.trim();
+            var newBio = document.getElementById('edit-bio').value.trim();
+            
+            if (!newName) {
+                alert('Display name cannot be empty.');
+                return;
+            }
+            
+            profile.displayName = newName;
+            profile.bio = newBio || 'No bio yet.';
+            
+            updateUI();
+            
+            document.getElementById('profile-edit-form').style.display = 'none';
+            document.getElementById('profile-actions').style.display = 'block';
+        });
+        
+        // Initial UI update
+        updateUI();
+    </script>
+
+</body>
+</html>

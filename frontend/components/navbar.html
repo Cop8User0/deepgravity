@@ -1,0 +1,34 @@
+<!--
+  DEEPGRAVITY – Navbar Component
+  Top navigation bar loaded into #navbar by app.js
+-->
+  
+<nav class="navbar">
+    
+    <!-- Logo -->
+    <a href="#/feed" class="navbar-logo">DEEPGRAVITY</a>
+    
+    <!-- Spacer -->
+    <div class="navbar-spacer"></div>
+    
+    <!-- Search Button -->
+    <a href="#/search" class="navbar-icon" title="Search users">🔍</a>
+    
+    <!-- User Avatar & Dropdown -->
+    <div class="navbar-user">
+        
+        <!-- Avatar -->
+        <img id="nav-user-avatar" class="navbar-avatar" src="/uploads/profiles/default.png" alt="User profile">
+        
+        <!-- Dropdown Menu -->
+        <div id="nav-dropdown" class="navbar-dropdown">
+            <a href="#/profile">Profile</a>
+            <a href="#/settings">Settings</a>
+            <a id="admin-link" href="#/admin">Admin Panel</a>
+            <hr>
+            <a id="logout-btn" href="#">Sign Out</a>
+        </div>
+        
+    </div>
+    
+</nav>

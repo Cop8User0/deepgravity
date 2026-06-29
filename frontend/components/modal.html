@@ -1,0 +1,33 @@
+<!--
+  DEEPGRAVITY – Modal Component
+  Reusable modal dialog for confirmations, forms, or information display.
+  Loaded dynamically into #modal-container by JavaScript.
+-->
+  
+<div id="reusable-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    
+    <div class="modal-card">
+        
+        <!-- Close Button -->
+        <button id="modal-close-x" class="modal-close" aria-label="Close modal" title="Close (Esc)">
+            &times;
+        </button>
+        
+        <!-- Modal Title -->
+        <h3 id="modal-title" class="modal-title">Title</h3>
+        
+        <!-- Modal Body (custom content injected here) -->
+        <div id="modal-body" class="modal-body">
+            <!-- Dynamic content goes here -->
+            <p>Modal content goes here.</p>
+        </div>
+        
+        <!-- Modal Footer with Action Buttons -->
+        <div id="modal-footer" class="modal-footer">
+            <button id="modal-cancel-btn" class="modal-btn modal-btn-cancel">Cancel</button>
+            <button id="modal-confirm-btn" class="modal-btn modal-btn-confirm">Confirm</button>
+        </div>
+        
+    </div>
+    
+</div>
