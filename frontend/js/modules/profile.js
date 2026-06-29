@@ -12,7 +12,7 @@ const ProfileModule = {
         profile: {
             displayName: 'gravity888',
             bio: 'Deepcore operator. Trading and encryption enthusiast.',
-            avatar: '/uploads/profiles/default.png'
+            avatar: '/assets/images/default.png'
         },
         stats: {
             posts: 0,
@@ -103,18 +103,19 @@ const ProfileModule = {
     /**
      * Update all UI elements with current profile data
      */
-    updateUI() {
-        // Avatar
-        const avatarEl = document.getElementById('profile-avatar');
-        if (avatarEl) {
-            avatarEl.src = this.state.profile.avatar;
-            avatarEl.onerror = () => {
-                avatarEl.src = '/uploads/profiles/default.png';
-                this.state.profile.avatar = '/uploads/profiles/default.png';
-                this.saveProfile();
-            };
-        }
-        
+  updateUI() {
+    // Avatar
+    const avatarEl = document.getElementById('profile-avatar');
+    if (avatarEl) {
+        avatarEl.src = this.state.profile.avatar;
+        avatarEl.onerror = () => {
+            avatarEl.src = '/assets/images/default.png';   // ✅ სწორი
+            this.state.profile.avatar = '/assets/images/default.png';
+            this.saveProfile();
+        };
+    }
+    // ... დანარჩენი კოდი
+
         // Display Name
         const nameEl = document.getElementById('profile-display-name');
         if (nameEl) nameEl.textContent = this.state.profile.displayName;
