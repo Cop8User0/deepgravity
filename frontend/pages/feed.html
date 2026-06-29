@@ -117,7 +117,7 @@
     <!-- ============================================================ -->
     <!-- JAVASCRIPT                                                     -->
     <!-- ============================================================ -->
-    <script>
+<script>
         // ============================================================
         // 1. NAVBAR
         // ============================================================
@@ -170,8 +170,8 @@
                 userArea.className = 'user-area';
                 
                 var avatar = document.createElement('img');
-                avatar.src = user.avatar || '/uploads/profiles/default.png';
-                avatar.onerror = function() { this.src = '/uploads/profiles/default.png'; };
+                avatar.src = user.avatar || '/assets/images/default.png';
+                avatar.onerror = function() { this.src = '/assets/images/default.png'; };
                 userArea.appendChild(avatar);
                 
                 var usernameSpan = document.createElement('span');
@@ -387,9 +387,7 @@
         document.getElementById('post-input').addEventListener('keydown', function(e) {
             if (e.ctrlKey && e.key === 'Enter') { e.preventDefault(); createPost(); }
         });
-        const avatarUrl = user.avatar 
-    ? `https://deepgravity-app.onrender.com/uploads/profiles/${user.avatar}` 
-    : '/assets/images/default.png';
+        
         // Initial render
         renderFeed();
     </script>
