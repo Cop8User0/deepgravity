@@ -362,7 +362,7 @@
     </script>
 
     <!-- NAVBAR LOGIC -->
-    <script>
+ <script>
         (function(){
             function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML;}
             function getUser(){try{return JSON.parse(localStorage.getItem('dg_user'))}catch(e){return null}}
@@ -376,7 +376,7 @@
                     if(isAdmin(u)) links.push({h:'pages/admin.html',t:'<i class="fas fa-shield"></i> Admin',c:'admin-link'});
                     links.forEach(function(l){var a=document.createElement('a');a.href=l.h;a.innerHTML=l.t;if(l.c)a.className=l.c;nl.appendChild(a);});
                     var ua=document.createElement('div');ua.className='user-area';
-                    var av=document.createElement('img');av.src=u.avatar||'/uploads/profiles/default.png';av.className='avatar';av.onerror=function(){this.src='/uploads/profiles/default.png';};ua.appendChild(av);
+                    var av=document.createElement('img');av.src=u.avatar||'/assets/images/default.png';av.className='avatar';av.onerror=function(){this.src='/assets/images/default.png';};ua.appendChild(av);
                     var us=document.createElement('span');us.className='username';us.textContent=esc(u.display_name||u.username);ua.appendChild(us);
                     var pl=document.createElement('a');pl.href='pages/profile.html';pl.innerHTML='<i class="fas fa-user"></i>';pl.style.cssText='padding:0.4rem 0.6rem;font-size:0.85rem;';ua.appendChild(pl);
                     var sl=document.createElement('a');sl.href='pages/settings.html';sl.innerHTML='<i class="fas fa-gear"></i>';sl.style.cssText='padding:0.4rem 0.6rem;font-size:0.85rem;';ua.appendChild(sl);
