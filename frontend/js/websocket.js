@@ -45,13 +45,17 @@ const socketManager = {
             return this.socket;
         }
         
+        // Use environment variable or fallback
+        const wsUrl = process.env.WS_URL || 'https://deepgravity-app.onrender.com';
+        
         try {
-            this.socket = io(window.location.origin, {
+            this.socket = io(wsUrl, {
                 auth: { token },
                 transports: ['websocket', 'polling'],
                 reconnection: true,
-                reconnectionAttempts: 5,
-                reconnectionDelay: 2000
+                reconnectionAttempts: 10,
+                reconnectionDelay: 2000,
+                timeout: 30000
             });
             
             // Connection events
